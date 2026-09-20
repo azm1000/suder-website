@@ -22,23 +22,32 @@
   closeBtn&&closeBtn.addEventListener('click', function(){ toggleMenu(false); });
   d.addEventListener('keydown', function(e){ if(e.key==='Escape') toggleMenu(false); });
 
-  // Reveal on scroll
+  // Reveal on scroll (rect check on load/scroll/resize; robust even where IntersectionObserver is throttled)
   var items=[].slice.call(d.querySelectorAll('.reveal'));
-  if(reduce || !('IntersectionObserver' in w)){ items.forEach(function(el){el.classList.add('in');}); }
+  function revealCheck(){
+    if(!items.length) return;
+    var vh=w.innerHeight||d.documentElement.clientHeight, keep=[];
+    items.forEach(function(el){ var r=el.getBoundingClientRect(); if(r.top < vh*0.94 && r.bottom > 0){ el.classList.add('in'); } else keep.push(el); });
+    items=keep;
+  }
+  if(reduce){ items.forEach(function(el){el.classList.add('in');}); items=[]; }
   else{
-    var io=new IntersectionObserver(function(entries){ entries.forEach(function(en){ if(en.isIntersecting){ en.target.classList.add('in'); io.unobserve(en.target);} }); },{rootMargin:'0px 0px -8% 0px',threshold:.08});
-    items.forEach(function(el){ io.observe(el); });
+    revealCheck(); w.addEventListener('scroll', revealCheck, {passive:true}); w.addEventListener('resize', revealCheck); w.addEventListener('load', revealCheck); setTimeout(revealCheck, 300);
   }
 
   // Count-up stats
   var counters=[].slice.call(d.querySelectorAll('[data-count]'));
-  if(counters.length && !reduce && 'IntersectionObserver' in w){
-    var cio=new IntersectionObserver(function(entries){ entries.forEach(function(en){ if(!en.isIntersecting) return; var el=en.target; cio.unobserve(el);
-      var target=parseFloat(el.dataset.count), suffix=el.dataset.suffix||'', start=null, dur=1400; el.textContent='0'+suffix;
-      function step(ts){ if(!start) start=ts; var p=Math.min((ts-start)/dur,1); var e=1-Math.pow(1-p,3); el.textContent=Math.round(target*e)+suffix; if(p<1) requestAnimationFrame(step); }
-      requestAnimationFrame(step); }); },{threshold:.5});
-    counters.forEach(function(el){ cio.observe(el); });
+  function runCounter(el){
+    var target=parseFloat(el.dataset.count), suffix=el.dataset.suffix||'', start=null, dur=1400; el.textContent='0'+suffix;
+    function step(ts){ if(!start) start=ts; var p=Math.min((ts-start)/dur,1); var e=1-Math.pow(1-p,3); el.textContent=Math.round(target*e)+suffix; if(p<1) requestAnimationFrame(step); }
+    requestAnimationFrame(step);
   }
+  function counterCheck(){
+    if(!counters.length) return; var vh=w.innerHeight||d.documentElement.clientHeight, keep=[];
+    counters.forEach(function(el){ var r=el.getBoundingClientRect(); if(r.top < vh*0.9 && r.bottom > 0) runCounter(el); else keep.push(el); });
+    counters=keep;
+  }
+  if(!reduce){ counterCheck(); w.addEventListener('scroll', counterCheck, {passive:true}); setTimeout(counterCheck, 300); }
 
   // Marquee: duplicate track for seamless loop
   d.querySelectorAll('.marquee-track').forEach(function(t){ t.innerHTML += t.innerHTML; });
