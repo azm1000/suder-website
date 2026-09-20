@@ -9,7 +9,7 @@ import landing_content as LC
 
 ROOT = Path(__file__).resolve().parent.parent
 PUB = ROOT / "public"
-V = "20260920d"  # cache-bust for css/js
+V = "20260920f"  # cache-bust for css/js
 
 def esc(s): return html.escape(s, quote=True)
 
@@ -114,8 +114,13 @@ def write(path, content):
     return path
 
 # ------------------------------------------------------------------ pieces
-def hero(h1, lede, actions, img=None, tag=None, short=False, eyebrow=None, caption=None):
-    media = f'<div class="hero-media"><img src="/assets/img/{img}" alt="{esc(caption or "")}" fetchpriority="high"></div><div class="hero-shade"></div>' if img else '<div class="hero-pattern"></div>'
+def hero(h1, lede, actions, img=None, tag=None, short=False, eyebrow=None, caption=None, slides=None):
+    if slides:
+        imgs = "".join(f'<img class="slide{" active" if i==0 else ""}" src="/assets/img/{s}" alt="{esc(c)}" data-caption="{esc(c)}"{" fetchpriority=high" if i==0 else " loading=lazy"}>' for i, (s, c) in enumerate(slides))
+        media = f'<div class="hero-media hero-slides" data-interval="6500">{imgs}</div><div class="hero-shade"></div>'
+        caption = slides[0][1]
+    else:
+        media = f'<div class="hero-media"><img src="/assets/img/{img}" alt="{esc(caption or "")}" fetchpriority="high"></div><div class="hero-shade"></div>' if img else '<div class="hero-pattern"></div>'
     eb = f'<div class="eyebrow reveal in">{esc(eyebrow)}</div>' if eyebrow else ""
     tg = f'<div class="hero-tag reveal" data-delay="3">{esc(tag)}</div>' if tag else ""
     return f'''<section class="hero{" hero-short" if short else ""}">
@@ -193,7 +198,7 @@ def build_home():
         'Counsel for the <em>Built Environment.</em>',
         "Ohio's land use and zoning counsel, with a commercial real estate practice built by former big-firm partners. At Suder, zoning is not just another practice area. It is the practice area.",
         btn("/contact/", "Get in touch") + btn("/practice/land-use-zoning/", "Explore our work", "outline"),
-        img="hero-skylines.jpg", tag="Cincinnati · Columbus · Cleveland and 60+ jurisdictions across Ohio and Northern Kentucky",
+        slides=HOME_SLIDES, tag="Cincinnati · Columbus · Cleveland and 60+ jurisdictions across Ohio and Northern Kentucky",
         eyebrow="Land use · Real estate · Litigation")
     body += stats_band()
     body += f'''<section><div class="wrap split">

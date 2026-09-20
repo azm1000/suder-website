@@ -55,6 +55,17 @@ PRACTICE_HERO = {
     "local-counsel": ("hero-roebling.jpg", "The Roebling Suspension Bridge between Ohio and Kentucky"),
 }
 
+# Home hero slideshow: (image, caption)
+HOME_SLIDES = [
+    ("hero-cincinnati-night.jpg", "Downtown Cincinnati"),
+    ("hero-hyde-park.jpg", "Hyde Park Square: rezoned for a $150M mixed-use project"),
+    ("hero-music-hall.jpg", "Washington Park, Over-the-Rhine: where we saved the 150-year-old bell tower"),
+    ("hero-roebling.jpg", "The Roebling Suspension Bridge: Ohio and Northern Kentucky"),
+    ("hero-city-hall.jpg", "Cincinnati City Hall: where our founder served as Chief Counsel for Land Use and Planning"),
+    ("hero-courthouse.jpg", "Hamilton County Courthouse: home of our published appellate wins"),
+    ("hero-vine-street.jpg", "Vine Street, Over-the-Rhine: our neighborhood"),
+]
+
 # ---------------------------------------------------------------- results
 # Only verified matters. Each: slug, title, meta (place/year), summary, practices (slugs), featured
 RESULTS = [
