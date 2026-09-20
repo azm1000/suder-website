@@ -9,7 +9,7 @@ import landing_content as LC
 
 ROOT = Path(__file__).resolve().parent.parent
 PUB = ROOT / "public"
-V = "20260920c"  # cache-bust for css/js
+V = "20260920d"  # cache-bust for css/js
 
 def esc(s): return html.escape(s, quote=True)
 
@@ -114,8 +114,8 @@ def write(path, content):
     return path
 
 # ------------------------------------------------------------------ pieces
-def hero(h1, lede, actions, img=None, tag=None, short=False, eyebrow=None):
-    media = f'<div class="hero-media"><img src="/assets/img/{img}" alt="" fetchpriority="high"></div><div class="hero-shade"></div>' if img else '<div class="hero-pattern"></div>'
+def hero(h1, lede, actions, img=None, tag=None, short=False, eyebrow=None, caption=None):
+    media = f'<div class="hero-media"><img src="/assets/img/{img}" alt="{esc(caption or "")}" fetchpriority="high"></div><div class="hero-shade"></div>' if img else '<div class="hero-pattern"></div>'
     eb = f'<div class="eyebrow reveal in">{esc(eyebrow)}</div>' if eyebrow else ""
     tg = f'<div class="hero-tag reveal" data-delay="3">{esc(tag)}</div>' if tag else ""
     return f'''<section class="hero{" hero-short" if short else ""}">
@@ -128,6 +128,7 @@ def hero(h1, lede, actions, img=None, tag=None, short=False, eyebrow=None):
   </div>
   {tg}
   <div class="hero-scroll">Scroll</div>
+  {f'<div class="hero-caption">{esc(caption)}</div>' if caption else ''}
 </section>'''
 
 def stats_band():
@@ -150,7 +151,9 @@ def practice_cards(exclude=None):
 
 def result_row(r):
     tags = " ".join(r["practices"])
+    th = f'<div class="thumb"><img src="/assets/img/{r["img"]}" alt="" loading="lazy" width="900" height="675"></div>' if r.get("img") else '<div class="thumb thumb-empty"><span>{}</span></div>'.format(esc(r["kicker"].split()[0]))
     return f'''<a class="row reveal" id="{r["slug"]}" data-tags="{tags}" href="/results/#{r["slug"]}">
+  {th}
   <div><div class="kicker">{esc(r["kicker"])}</div><h3>{esc(r["title"])}</h3><div class="meta">{esc(r["meta"])}</div></div>
   <p>{esc(r["summary"])}</p>
   <div class="arrow">{ARROW}</div>
@@ -228,7 +231,7 @@ def build_practices():
     rs = by_slug()
     for slug, name in PRACTICES:
         p = lc[slug]
-        img = PRACTICE_HERO[slug]
+        img, cap = PRACTICE_HERO[slug]
         results = [r for r in RESULTS if slug in r["practices"]]
         bullets = "".join(f'<li class="reveal" data-delay="{i%4}">{esc(b)}</li>' for i, b in enumerate(p["bullets"]))
         cred = f'''<div class="credbar"><div class="wrap">
@@ -245,7 +248,7 @@ def build_practices():
 </div></section>'''
         others = f'''<section><div class="wrap"><div class="eyebrow reveal">Related practice areas</div><h2 class="reveal" style="max-width:16ch">Everything real property.</h2><div class="grid grid-3" style="margin-top:40px">{practice_cards(exclude=slug)}</div></div></section>'''
         body = hero(esc(p["heading"]), p["subheading"], btn("/contact/", p["button"]) + btn("/results/#" + slug, "See results", "outline"),
-                    img=img, tag=p["image_text"], short=True, eyebrow=LC.LICENSED)
+                    img=img, tag=p["image_text"], short=True, eyebrow=LC.LICENSED, caption=cap)
         body += cred
         body += f'''<section><div class="wrap split">
   <div class="sticky"><div class="eyebrow reveal">Why Suder</div><h2 class="reveal">{esc(name)}</h2></div>
@@ -350,6 +353,8 @@ def build_misc():
     for block in terms.strip().split("\n\n"):
         if block.startswith("## "): th += f"<h2>{esc(block[3:])}</h2>"
         else: th += f"<p>{esc(block)}</p>"
+    credits = "".join(f'<li>{esc(t_)} by {esc(a)} (<a href="{lu}" rel="noopener" target="_blank" style="text-decoration:underline">{esc(l)}</a>), <a href="{pg}" rel="noopener" target="_blank" style="text-decoration:underline">via Wikimedia Commons</a></li>' for f, t_, a, l, lu, pg in PHOTO_CREDITS)
+    th += f'<h2 id="photo-credits">Photo credits</h2><p>Photographs of Cincinnati, Cleveland, and Austin landmarks are used under Creative Commons licenses and are credited here with thanks:</p><ul style="font-size:14px">{credits}</ul>'
     write("/terms/", page("Terms of Use", "Terms of use for the Suder, LLC website.", f'<section class="page-head"><div class="wrap-narrow"><div class="eyebrow">Terms of use</div><h1>Terms of use.</h1></div></section><section style="padding-top:0"><div class="wrap-narrow prose">{th}</div></section>', "/terms/", dark_hero=False))
     write("/404.html", page("Page not found", "Page not found.", f'<section class="page-head"><div class="wrap-narrow"><div class="eyebrow">404</div><h1>That page moved, or never existed.</h1><p class="lede">Try the practice areas, results, or team pages, or head home.</p><p>{btn("/", "Back to home")}</p></div></section>', "/404.html", dark_hero=False))
 
