@@ -20,7 +20,10 @@ sys.path.insert(0, str(HERE.parent))
 from site_content import TEAM, FIRM
 
 OUT = HERE
-BASE = FIRM["domain"] + "/assets/img"
+# Until ssuder.com is cut over to the new site, its /assets/img paths 404 and a
+# pasted signature loses every image. Pass a base that is actually serving, e.g.
+#   python3 src/signature/make_signatures.py --base https://suder.netlify.app
+BASE = (sys.argv[sys.argv.index("--base") + 1] if "--base" in sys.argv else FIRM["domain"]).rstrip("/") + "/assets/img"
 esc = lambda s: _html.escape(s, quote=True)
 
 PERSONAL_BADGES = [
