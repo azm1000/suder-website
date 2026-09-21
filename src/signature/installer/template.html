@@ -1,0 +1,239 @@
+<title>Suder Signature Installer</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;1,9..144,400&family=Inter:wght@400;500;600&display=swap">
+<style>
+  :root{
+    --ink:#111418; --body-c:#2b3138; --muted:#6b7280; --faint:#8b9199;
+    --paper:#f5f2ec; --surface:#fffdf9; --line:rgba(17,20,24,.13); --line-soft:rgba(17,20,24,.07);
+    --navy:#15243b; --brass:#a8823c; --brass-ink:#7d6129; --brass-soft:rgba(168,130,60,.1);
+    --display:"Fraunces",Georgia,"Times New Roman",serif;
+    --ui:"Inter",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
+  }
+  @media (prefers-color-scheme:dark){
+    :root:not([data-theme="light"]){
+      --ink:#f2efe9; --body-c:#ccd2da; --muted:#9aa2ad; --faint:#7e8691;
+      --paper:#0e192b; --surface:#16233a; --line:rgba(255,255,255,.15); --line-soft:rgba(255,255,255,.08);
+      --navy:#dfe6f0; --brass:#d7b46b; --brass-ink:#e6c98e; --brass-soft:rgba(215,180,107,.13);
+    }
+  }
+  :root[data-theme="dark"]{
+    --ink:#f2efe9; --body-c:#ccd2da; --muted:#9aa2ad; --faint:#7e8691;
+    --paper:#0e192b; --surface:#16233a; --line:rgba(255,255,255,.15); --line-soft:rgba(255,255,255,.08);
+    --navy:#dfe6f0; --brass:#d7b46b; --brass-ink:#e6c98e; --brass-soft:rgba(215,180,107,.13);
+  }
+  body{background:var(--paper);color:var(--body-c);font-family:var(--ui);font-size:15px;line-height:1.6}
+  .wrap{max-width:720px;margin:0 auto;padding:clamp(28px,6vw,56px) 20px 72px;display:flex;flex-direction:column;gap:34px}
+  .eyebrow{font-size:11px;letter-spacing:.17em;text-transform:uppercase;font-weight:600;color:var(--brass-ink);margin:0 0 10px}
+  h1{font-family:var(--display);font-weight:400;font-size:clamp(28px,5.2vw,40px);line-height:1.1;color:var(--ink);margin:0 0 10px;text-wrap:balance}
+  h1 em{font-style:italic}
+  .lede{margin:0;max-width:62ch;color:var(--muted)}
+  h2{font-family:var(--display);font-weight:500;font-size:20px;line-height:1.2;color:var(--ink);margin:0 0 4px}
+  .sec{display:flex;flex-direction:column;gap:14px}
+  .sec > p{margin:0;max-width:64ch}
+
+  /* The signature always sits on white: that is the ground it will live on in email. */
+  .stage{background:#fff;border:1px solid var(--line);border-radius:4px;padding:26px 24px;overflow-x:auto}
+  .stage-note{font-size:12px;color:var(--faint);margin:0}
+  .bar{display:flex;flex-wrap:wrap;align-items:center;gap:12px}
+  button{font:inherit;font-weight:600;font-size:14px;cursor:pointer;border-radius:999px;padding:11px 20px;
+    border:1px solid var(--brass);background:var(--brass);color:#fff;transition:background .2s,border-color .2s,transform .2s}
+  button:hover{background:var(--brass-ink);border-color:var(--brass-ink)}
+  button:active{transform:translateY(1px)}
+  button:focus-visible{outline:2px solid var(--brass-ink);outline-offset:3px}
+  .status{font-size:13px;color:var(--muted)}
+  .status[data-ok="1"]{color:var(--brass-ink);font-weight:600}
+
+  .tabs{display:flex;flex-wrap:wrap;gap:6px}
+  .tab{font:inherit;font-size:13px;font-weight:500;cursor:pointer;border-radius:999px;padding:7px 15px;
+    border:1px solid var(--line);background:transparent;color:var(--muted);transition:color .2s,border-color .2s,background .2s}
+  .tab:hover{color:var(--ink);border-color:var(--brass)}
+  .tab[aria-current="true"]{background:var(--brass-soft);border-color:var(--brass);color:var(--brass-ink);font-weight:600}
+  .tab:focus-visible{outline:2px solid var(--brass-ink);outline-offset:2px}
+
+  .clients{display:flex;flex-direction:column;gap:2px}
+  details{border-top:1px solid var(--line-soft)}
+  details:last-of-type{border-bottom:1px solid var(--line-soft)}
+  summary{cursor:pointer;list-style:none;padding:14px 2px;display:flex;align-items:center;justify-content:space-between;gap:12px;
+    font-weight:600;color:var(--ink);font-size:15px}
+  summary::-webkit-details-marker{display:none}
+  summary::after{content:"+";font-family:var(--ui);font-weight:400;font-size:19px;color:var(--brass-ink);line-height:1}
+  details[open] summary::after{content:"\2212"}
+  summary:focus-visible{outline:2px solid var(--brass-ink);outline-offset:2px}
+  ol{margin:0 0 16px;padding-left:20px;display:flex;flex-direction:column;gap:7px;max-width:62ch}
+  li::marker{color:var(--faint);font-variant-numeric:tabular-nums}
+  code{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:.92em;background:var(--brass-soft);
+    padding:1px 5px;border-radius:3px;color:var(--brass-ink)}
+
+  #source > summary{padding:10px 2px;font-size:14px;font-weight:600;color:var(--brass-ink);justify-content:flex-start;gap:8px}
+  #source > summary::after{margin-left:2px}
+  .src-note{margin:0 0 10px;font-size:13px;color:var(--muted);max-width:62ch}
+  #src-text{width:100%;box-sizing:border-box;font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:11.5px;
+    line-height:1.5;padding:12px;border:1px solid var(--line);border-radius:4px;background:var(--surface);color:var(--body-c);resize:vertical}
+  #src-text:focus-visible{outline:2px solid var(--brass-ink);outline-offset:1px}
+
+  .notes{display:flex;flex-direction:column;gap:12px;border-left:2px solid var(--brass);padding:2px 0 2px 16px}
+  .note{margin:0;font-size:13.5px;max-width:62ch}
+  .note b{color:var(--ink);font-weight:600}
+  @media (prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+
+<div class="wrap">
+  <header>
+    <p class="eyebrow">Suder, LLC</p>
+    <h1>Put the signature in <em>your mail.</em></h1>
+    <p class="lede">Pick a name, copy the block, and paste it into your signature settings. The tagline rolls through the practice areas once when a message is opened, then rests on the firm line.</p>
+  </header>
+
+  <section class="sec">
+    <div class="tabs" role="group" aria-label="Whose signature"><!--TABS-->
+    </div><!--STAGES-->
+    <div class="bar">
+      <button id="copy" type="button">Copy signature</button>
+      <span class="status" id="status">Copies the version that points at ssuder.com.</span>
+    </div>
+    <p class="stage-note">Shown on white because that is the ground it will sit on in an email, whatever theme this page is in.</p>
+    <details id="source">
+      <summary>Show the HTML</summary>
+      <p class="src-note">If the button does not work, or Outlook refuses the paste: select everything in this box and copy it. For classic Outlook on Windows you can skip pasting altogether &mdash; save it as <code>Suder.htm</code> into <code>%APPDATA%\Microsoft\Signatures</code>, naming it exactly as an existing signature there.</p>
+      <textarea id="src-text" readonly spellcheck="false" rows="10"></textarea>
+    </details>
+  </section>
+
+  <section class="sec">
+    <h2>Where it goes</h2>
+    <div class="clients">
+      <details open>
+        <summary>Outlook for Windows</summary>
+        <ol>
+          <li>File &rarr; Options &rarr; Mail &rarr; <b>Signatures</b>.</li>
+          <li>Pick your existing signature, or <b>New</b> to add one.</li>
+          <li>Select everything in the edit box and delete it.</li>
+          <li>Paste. Use <code>Ctrl+V</code>, not Paste Special &mdash; plain text drops the images.</li>
+          <li>Set it as the default for <b>New messages</b> and <b>Replies/forwards</b>, then OK.</li>
+        </ol>
+      </details>
+      <details>
+        <summary>Outlook for Mac and Outlook on the web</summary>
+        <ol>
+          <li>Settings &rarr; <b>Mail</b> &rarr; <b>Compose and reply</b>.</li>
+          <li>Clear the existing signature, then paste with <code>&#8984;V</code>.</li>
+          <li>Tick the boxes for new messages and replies, then <b>Save</b>.</li>
+        </ol>
+      </details>
+      <details>
+        <summary>Gmail</summary>
+        <ol>
+          <li>Gear icon &rarr; <b>See all settings</b> &rarr; <b>General</b> &rarr; <b>Signature</b>.</li>
+          <li>Clear the box, then paste.</li>
+          <li>Under <b>Signature defaults</b>, set it for new mail and for replies.</li>
+          <li>Scroll to the bottom and <b>Save Changes</b> &mdash; Gmail discards it otherwise.</li>
+        </ol>
+      </details>
+      <details>
+        <summary>Apple Mail</summary>
+        <ol>
+          <li>Mail &rarr; Settings &rarr; <b>Signatures</b>.</li>
+          <li>Untick <b>Always match my default message font</b>, or the formatting is stripped.</li>
+          <li>Select the account, clear the preview pane, and paste.</li>
+        </ol>
+      </details>
+    </div>
+  </section>
+
+  <section class="sec">
+    <h2>Worth knowing</h2>
+    <div class="notes">
+      <p class="note"><b>Outlook for Windows does not animate GIFs.</b> It shows the first frame only, which is why the first frame is the settled tagline. Those recipients see a clean static line rather than a reel stopped mid-word.</p>
+      <p class="note"><b>Dark mode shows a white panel.</b> The tagline and badges carry white backgrounds, so on a dark-themed client they sit on a light rectangle. Email cannot swap images by theme; a dark-background set is the alternative, but it would then look wrong in light mode.</p>
+      <p class="note"><b>Images load from ssuder.com.</b> Nothing is attached to your messages, so the signature adds no weight &mdash; but some recipients block remote images by default and will see the alt text until they allow them.</p>
+      <p class="note"><b>Only Sean carries three badges.</b> The Chambers and Lawyer of the Year artwork names him personally &mdash; the Chambers laurel reads &ldquo;Sean Suder&rdquo; and the Best Lawyers shield reads &ldquo;Sean S. Suder, Land Use and Zoning Law.&rdquo; Everyone else carries the firm-level Best Law Firms badge and the Spotlight Firm line, which belong to the firm and are accurate for all of you.</p>
+      <p class="note"><b>Names and numbers come from the website.</b> These are generated from the same team data the site&rsquo;s bio pages use, so they cannot drift apart. Change a number there and regenerate with <code>src/signature/make_signatures.py</code>.</p>
+      <p class="note"><b>Changing the practice areas</b> means regenerating the tagline: edit <code>SPIN_WORDS</code>, then run <code>src/signature/make_gif.py</code>.</p>
+    </div>
+  </section>
+</div>
+
+<!--PAYLOADS--><script>
+  (function(){
+    var btn = document.getElementById('copy'),
+        stages = document.querySelectorAll('.stage'),
+        tabs = document.querySelectorAll('.tab'),
+        status = document.getElementById('status'),
+        active = 'sean-suder',
+        timer;
+
+    function fillSource(){
+      var box = document.getElementById('src-text');
+      if (box) box.value = payload();
+    }
+    fillSource();
+
+    tabs.forEach(function(tab){
+      tab.addEventListener('click', function(){
+        active = tab.dataset.slug;
+        tabs.forEach(function(t){
+          if (t === tab) t.setAttribute('aria-current','true'); else t.removeAttribute('aria-current');
+        });
+        stages.forEach(function(s){ s.hidden = (s.id !== 'sig-' + active); });
+        fillSource();
+        say('Showing ' + tab.textContent + '\u2019s signature.', false);
+      });
+    });
+
+    function say(msg, ok){
+      status.textContent = msg;
+      if (ok) status.setAttribute('data-ok','1'); else status.removeAttribute('data-ok');
+      clearTimeout(timer);
+      timer = setTimeout(function(){
+        status.textContent = 'Copies the version that points at ssuder.com.';
+        status.removeAttribute('data-ok');
+      }, 6000);
+    }
+
+    function payload(){
+      return document.getElementById('src-' + active).textContent.trim();
+    }
+
+    // Copy from an offscreen copy of the SHIPPING markup, never from the preview:
+    // the preview's images point at this page's own files, which resolve to nothing
+    // inside a mail client. The clipboard has to carry the ssuder.com URLs.
+    function copyViaSelection(){
+      var ghost = document.createElement('div');
+      ghost.setAttribute('aria-hidden', 'true');
+      ghost.style.cssText = 'position:fixed;left:-10000px;top:0;width:640px;background:#fff';
+      ghost.innerHTML = payload();
+      document.body.appendChild(ghost);
+      var r = document.createRange();
+      r.selectNodeContents(ghost);
+      var sel = window.getSelection();
+      sel.removeAllRanges();
+      sel.addRange(r);
+      var ok = false;
+      try { ok = document.execCommand('copy'); } catch (e) {}
+      sel.removeAllRanges();
+      ghost.remove();
+      return ok;
+    }
+
+    btn.addEventListener('click', function(){
+      var html = payload();
+      // Rich copy keeps the tables and inline styles the mail clients need.
+      if (window.ClipboardItem && navigator.clipboard && navigator.clipboard.write) {
+        navigator.clipboard.write([new ClipboardItem({
+          'text/html': new Blob([html], {type:'text/html'}),
+          'text/plain': new Blob([document.getElementById('sig-' + active).innerText], {type:'text/plain'})
+        })]).then(function(){
+          say('Copied. Paste it into your signature settings.', true);
+        }).catch(function(){ legacy(); });
+      } else { legacy(); }
+    });
+
+    function legacy(){
+      if (copyViaSelection()) say('Copied. Paste it into your signature settings.', true);
+      else {
+        say('This browser blocked the copy \u2014 open Show the HTML below.', false);
+        var d = document.getElementById('source');
+        if (d) { d.open = true; d.scrollIntoView({block:'nearest'}); }
+      }
+    }
+  })();
+</script>
