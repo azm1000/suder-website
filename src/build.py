@@ -9,7 +9,7 @@ import landing_content as LC
 
 ROOT = Path(__file__).resolve().parent.parent
 PUB = ROOT / "public"
-V = "20260921h"  # cache-bust for css/js
+V = "20260921i"  # cache-bust for css/js
 
 def esc(s): return html.escape(s, quote=True)
 
@@ -214,7 +214,7 @@ def build_home():
         hero_spin_h1(),
         "Ohio's land use and zoning counsel, with a commercial real estate practice built by former big-firm partners. At Suder, zoning is not just another practice area. It is the practice area.",
         btn("/contact/", "Get in touch") + btn("/practice/land-use-zoning/", "Explore our work", "outline"),
-        slides=HOME_SLIDES, tag="Cincinnati · Columbus · Cleveland and 60+ jurisdictions across Ohio and Northern Kentucky",
+        slides=HOME_SLIDES, tag="Ohio's Land Use Counsel",
         eyebrow="Land use · Real estate · Litigation")
     body += stats_band()
     body += f'''<section><div class="wrap split">

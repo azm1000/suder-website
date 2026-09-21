@@ -226,6 +226,9 @@ body.menu-open{overflow:hidden}
 .sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap;border:0}
 
 /* the same reel at headline size: "Counsel for" over the reeling line */
+/* .hero h1 sets max-width:14ch, which out-specifies a bare .spin-h1 and clipped
+   the settled line; the reel needs its own width, so match that specificity. */
+.hero h1.spin-h1{max-width:none}
 .spin-h1{max-width:none;display:block}
 .spin-h1 .spin-pre{display:block}
 .spin-h1 .spin-word{font-style:italic;color:var(--white);max-width:none}
