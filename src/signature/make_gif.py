@@ -19,8 +19,8 @@ OUT = HERE.parent.parent / "public" / "assets" / "img"
 TMP = HERE / ".frames"
 SCALE = 2          # render at 2x, display at half size for retina
 COLORS = 16        # text on white quantizes cleanly; keeps the file ~110 KB
-# coarse while the reel is blurred and moving, fine through the readable settle
-TIMES = [0] + list(range(80, 1300, 80)) + list(range(1300, 2151, 50))
+# even 60ms sampling: with the blur pulled back, uneven frame gaps read as judder
+TIMES = [0] + list(range(70, 2651, 70))
 
 SHOOT = """
 const { chromium } = require('playwright');
@@ -31,10 +31,12 @@ const { chromium } = require('playwright');
   const p = await c.newPage();
   await p.goto('file://' + cfg.page, {waitUntil:'networkidle'});
   // Gate on the real faces: a fallback render silently changes the metrics.
-  await p.waitForFunction(() => {
-    const f = [...document.fonts].filter(x => x.family === 'Fraunces' && x.status === 'loaded');
-    return f.length >= 2 && document.fonts.check('italic 22px Fraunces');
-  }, null, {timeout:30000});
+  await p.evaluate(() => Promise.all([
+    document.fonts.load('400 22px Fraunces'), document.fonts.load('italic 400 22px Fraunces')
+  ]).then(() => document.fonts.ready));
+  const ok = await p.evaluate(() =>
+    [...document.fonts].filter(f => f.family === 'Fraunces' && f.status === 'loaded').length >= 2);
+  if (!ok) { console.error('Fraunces did not load from src/signature/fonts/'); process.exit(1); }
   await p.waitForTimeout(300);
   await p.evaluate(() => window.measure());
   const stage = p.locator('#stage');
@@ -61,6 +63,13 @@ def main():
     montage = Image.new("RGB", (w, h * len(frames)))
     for i, f in enumerate(frames): montage.paste(f, (0, i * h))
     pal = montage.quantize(colors=COLORS, method=Image.MEDIANCUT)
+    # Snap near-white palette entries to pure white: quantization drifts the
+    # background a shade or two, which shows as a faint box on a white email.
+    pdata = pal.getpalette()
+    for i in range(0, len(pdata), 3):
+        r, g, b = pdata[i:i+3]
+        if r >= 246 and g >= 246 and b >= 246: pdata[i:i+3] = [255, 255, 255]
+    pal.putpalette(pdata)
     q = [f.quantize(palette=pal, dither=Image.Dither.NONE) for f in frames]
     dur = [1200] + [TIMES[i+1] - TIMES[i] for i in range(1, len(TIMES) - 1)] + [2600]
     kw = dict(save_all=True, append_images=q[1:], duration=dur, disposal=1, optimize=True)

@@ -9,7 +9,7 @@ import landing_content as LC
 
 ROOT = Path(__file__).resolve().parent.parent
 PUB = ROOT / "public"
-V = "20260921b"  # cache-bust for css/js
+V = "20260921e"  # cache-bust for css/js
 
 def esc(s): return html.escape(s, quote=True)
 
@@ -123,11 +123,12 @@ def hero(h1, lede, actions, img=None, tag=None, short=False, eyebrow=None, capti
         media = f'<div class="hero-media"><img src="/assets/img/{img}" alt="{esc(caption or "")}" fetchpriority="high"></div><div class="hero-shade"></div>' if img else '<div class="hero-pattern"></div>'
     eb = f'<div class="eyebrow reveal in">{esc(eyebrow)}</div>' if eyebrow else ""
     tg = f'<div class="hero-tag reveal" data-delay="3">{esc(tag)}</div>' if tag else ""
+    h1_cls = "reveal spin-h1" if 'class="spin-word"' in h1 else "reveal"
     return f'''<section class="hero{" hero-short" if short else ""}">
   {media}
   <div class="hero-inner">
     {eb}
-    <h1 class="reveal">{h1}</h1>
+    <h1 class="{h1_cls}">{h1}</h1>
     <p class="lede reveal" data-delay="1">{esc(lede)}</p>
     <div class="hero-actions reveal" data-delay="2">{actions}</div>
   </div>
@@ -189,6 +190,15 @@ def spinner():
     return (f'<div class="spin reveal"><span class="spin-pre">Counsel for</span>'
             f'<span class="spin-word" data-spin="{esc("|".join(SPIN_WORDS))}">the Built Environment.</span></div>')
 
+def hero_spin_h1():
+    """The home h1, reeling. Same contract as spinner(): the settled tagline is the
+    real h1 text, so the headline reads normally with no JS, to a crawler, or under
+    reduced motion. data-spin-min keeps the reel off narrow screens, where a display-
+    size practice area cannot fit on one line."""
+    return ('<span class="spin-pre">Counsel for</span>'
+            f'<span class="spin-word" data-spin="{esc("|".join(HERO_SPIN_WORDS))}"'
+            ' data-spin-delay="750" data-spin-min="700">the Built Environment.</span>')
+
 def cta(h="Let's talk about your property.", sub="Tell us what you are trying to build, buy, keep, or defend. We will tell you plainly how we can help."):
     return f'''<section class="cta"><div class="wrap">
   <div>{spinner()}<h2 class="reveal" data-delay="1">{esc(h)}</h2><p class="lede reveal" data-delay="1">{esc(sub)}</p><div class="reveal" data-delay="2" style="margin-top:26px">{btn("/contact/", "Get in touch")}</div></div>
@@ -201,7 +211,7 @@ def by_slug(): return {r["slug"]: r for r in RESULTS}
 def build_home():
     featured = [r for r in RESULTS if r.get("featured")]
     body = hero(
-        'Counsel for the <em>Built Environment.</em>',
+        hero_spin_h1(),
         "Ohio's land use and zoning counsel, with a commercial real estate practice built by former big-firm partners. At Suder, zoning is not just another practice area. It is the practice area.",
         btn("/contact/", "Get in touch") + btn("/practice/land-use-zoning/", "Explore our work", "outline"),
         slides=HOME_SLIDES, tag="Cincinnati · Columbus · Cleveland and 60+ jurisdictions across Ohio and Northern Kentucky",

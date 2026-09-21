@@ -34,6 +34,16 @@ SPIN_WORDS = [
     "Real Estate Transactions",
     "Local Counsel",
 ]
+# shorter labels for the hero reel, which sets at display size and must not wrap
+HERO_SPIN_WORDS = [
+    "Zoning",
+    "Eminent Domain",
+    "Historic Preservation",
+    "Real Estate Tax",
+    "Litigation",
+    "Transactions",
+    "Local Counsel",
+]
 # map landing_content page names -> slug
 LANDING_TO_SLUG = {
     "Land Use & Zoning Page": "land-use-zoning",
