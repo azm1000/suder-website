@@ -214,7 +214,7 @@ def build_home():
         hero_spin_h1(),
         "Ohio's land use and zoning counsel, with a commercial real estate practice built by former big-firm partners. At Suder, zoning is not just another practice area. It is the practice area.",
         btn("/contact/", "Get in touch") + btn("/practice/land-use-zoning/", "Explore our work", "outline"),
-        slides=HOME_SLIDES, tag="Ohio's Land Use Counsel",
+        slides=HOME_SLIDES, tag="Ohio Statewide &\u00a0Northern Kentucky",
         eyebrow="Land use · Real estate · Litigation")
     body += stats_band()
     body += f'''<section><div class="wrap split">
