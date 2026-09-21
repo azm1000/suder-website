@@ -199,7 +199,7 @@ JURISDICTIONS = """Anderson Township|Boone County, KY|Butler County|City of Akro
 AWARDS = [
     dict(img="badge-best-lawyers-loty-2026.png", alt="Best Lawyers Lawyer of the Year 2026, Sean S. Suder, Land Use and Zoning Law, Cincinnati",
          title="Lawyer of the Year 2026", sub="Best Lawyers · Land Use and Zoning Law · Cincinnati"),
-    dict(img="badge-chambers-2025.jpg", alt="Chambers USA Top Ranked 2025, Sean Suder",
+    dict(img="badge-chambers-2026.png", alt="Chambers USA Top Ranked 2026, Sean Suder",
          title="Chambers USA, Band 1", sub="Ohio Real Estate: Zoning/Land Use, every year since 2019"),
     dict(img="badge-best-law-firms-2026.png", alt="Best Law Firms 2026, ranked by Best Lawyers",
          title="Best Law Firms 2026", sub="Ranked by Best Lawyers · United States"),
