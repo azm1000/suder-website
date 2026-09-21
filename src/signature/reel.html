@@ -17,20 +17,23 @@
   // same words and easing as the site's closing block
   var AREAS=["Land Use & Zoning","Eminent Domain","Historic Preservation","Real Estate Taxation","Real Property Litigation","Real Estate Transactions","Local Counsel"];
   var SETTLE="the Built Environment.";
-  var items=[SETTLE].concat(AREAS,[SETTLE]);           // starts settled so frame 1 is the resting line
+  var items=[SETTLE].concat(AREAS,[SETTLE],[AREAS[0]]); // starts settled so frame 1 is the resting line; trailing decoy for the overshoot
   var reel=document.getElementById('reel');
   items.forEach(function(t){var s=document.createElement('span');s.textContent=t;reel.appendChild(s);});
-  var N=items.length-1, step=0, prev=0;
-  var HOLD=.62, BACK=.9, C3=BACK+1, V0=3*C3-2*BACK, DUR=2650, BLUR_K=.09, BLUR_MAX=.55;
-  var fast=V0*HOLD*N/(1-HOLD+V0*HOLD);
+  var N=items.length-2, step=0, prev=0;                 // land on the firm line, not the decoy
+  var SLIDE=140, DWELL=360, BACK=.9, C3=BACK+1, BLUR_K=.09, BLUR_MAX=.55;
+  var CYCLE=SLIDE+DWELL, DUR=(N-1)*CYCLE+SLIDE*1.9;
   window.measure=function(){ step=reel.getBoundingClientRect().height/items.length;
     var w=document.getElementById('stage').getBoundingClientRect();
     return {step:step, width:Math.ceil(w.width), height:Math.ceil(w.height), items:items.length}; };
+  // Same stepped motion as the site: slide, then rest on the word long enough to read it.
   window.render=function(ms){                            // deterministic: position for a given time
-    var p=Math.min(ms/DUR,1), pos;
-    if(p<HOLD) pos=p/HOLD*fast;
-    else { var u=(p-HOLD)/(1-HOLD)-1; pos=fast+(N-fast)*(1+C3*u*u*u+BACK*u*u); }
+    var k=Math.min(Math.floor(ms/CYCLE), N-1), u=ms-k*CYCLE, last=(k===N-1), e;
+    var p=Math.min(Math.max(u,0)/(last?SLIDE*1.9:SLIDE),1);
+    if(last){ var q=p-1; e=1+C3*q*q*q+BACK*q*q; } else e=1-Math.pow(1-p,2.2);
+    var pos=k+e;
     reel.style.transform='translate3d(0,'+(-pos*step).toFixed(2)+'px,0)';
-    reel.style.filter=(ms<=0||p>=1)?'':'blur('+Math.min(BLUR_MAX,Math.abs(pos-prev)*step*BLUR_K).toFixed(2)+'px)';
+    reel.style.filter=(ms<=0||(last&&p>=1))?'':'blur('+Math.min(BLUR_MAX,Math.abs(pos-prev)*step*BLUR_K).toFixed(2)+'px)';
     prev=pos; return pos; };
+  window.timing=function(){ return {slide:SLIDE, dwell:DWELL, cycle:CYCLE, steps:N, dur:DUR}; };
 </script></body></html>

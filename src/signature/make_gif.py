@@ -19,8 +19,19 @@ OUT = HERE.parent.parent / "public" / "assets" / "img"
 TMP = HERE / ".frames"
 SCALE = 2          # render at 2x, display at half size for retina
 COLORS = 16        # text on white quantizes cleanly; keeps the file ~110 KB
-# even 60ms sampling: with the blur pulled back, uneven frame gaps read as judder
-TIMES = [0] + list(range(70, 2651, 70))
+# Sample each slide finely and each rest once. The rest frame then carries the
+# whole dwell as its duration, so a readable pause costs one frame, not twelve.
+SLIDE, DWELL, STEPS = 140, 360, 8
+def _times():
+    out, cycle = [0], SLIDE + DWELL
+    for k in range(STEPS):
+        base, span = k * cycle, SLIDE * 1.9 if k == STEPS - 1 else SLIDE
+        t = 35
+        while t < span:
+            out.append(round(base + t)); t += 35
+        out.append(round(base + span))          # the rest position
+    return out
+TIMES = _times()
 
 SHOOT = """
 const { chromium } = require('playwright');

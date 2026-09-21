@@ -94,45 +94,53 @@
     var words=(el.dataset.spin||'').split('|').filter(Boolean), settle=el.textContent.trim();
     if(!words.length || !settle || reduce) return;
     if(w.innerWidth < (parseInt(el.dataset.spinMin,10)||0)) return;   // too narrow to set on one line
-    var items=words.concat([settle],[words[0]]);              // one readable pass, the firm line, then a decoy the bounce reveals
+    // Start AND end on the firm line: at rest the reel shows the same words the
+    // static markup does, so nothing flashes on load and a re-roll is seamless.
+    var items=[settle].concat(words,[settle],[words[0]]);     // settled, one readable pass, settled, then a decoy the bounce reveals
     var sr=d.createElement('span'); sr.className='sr-only'; sr.textContent=settle;
     var reel=d.createElement('span'); reel.className='reel'; reel.setAttribute('aria-hidden','true');
     items.forEach(function(t){ var i=d.createElement('span'); i.textContent=t; reel.appendChild(i); });
     el.textContent=''; el.appendChild(sr); el.appendChild(reel);
     el.classList.add('reeled');        // clipping styles apply only once there is a reel to clip
     reels.push({el:el, reel:reel, n:items.length-2, done:false,     // land on the firm line, not the decoy
-                delay:parseInt(el.dataset.spinDelay,10)||260});
+                delay:parseInt(el.dataset.spinDelay,10)||260, away:true, last:0});
   });
-  // Two phases, as a real reel: constant fast spin, then a decelerating settle that
-  // overshoots by a hair and snaps back into the detent. FAST is solved from the
-  // constants so velocity is continuous across the hand-off (no visible hitch).
-  var HOLD=.62, BACK=.9, C3=BACK+1, V0=3*C3-2*BACK, DUR=2650, BLUR_K=.09, BLUR_MAX=.55;
+  // Steps rather than a continuous roll: each word slides in and then STOPS for
+  // DWELL. That rest is the only thing that makes the words readable — a reel that
+  // never pauses can be slowed forever and still not be read. The last step runs
+  // longer and overshoots, so it snaps into the detent like a real reel.
+  var SLIDE=140, DWELL=360, BACK=.9, C3=BACK+1, BLUR_K=.09, BLUR_MAX=.55;
+  var REARM=4000;                 // scroll away and back after this and it rolls again
   function spin(o){
-    o.done=true;
-    var step=o.reel.getBoundingClientRect().height/(o.n+2), dur=DUR, t0=null, prev=0;
-    var fast=V0*HOLD*o.n/(1-HOLD+V0*HOLD);
+    o.done=true; o.last=Date.now();
+    var step=o.reel.getBoundingClientRect().height/(o.n+2), t0=null, prev=0, cycle=SLIDE+DWELL;
+    o.reel.style.transform='translate3d(0,0,0)';   // index 0 reads the same as the resting line, so this is invisible
     o.el.classList.add('spinning');
     requestAnimationFrame(function frame(ts){
       if(t0===null) t0=ts;
-      var p=Math.min((ts-t0)/dur,1), pos;
-      if(p<HOLD) pos=p/HOLD*fast;
-      else { var u=(p-HOLD)/(1-HOLD)-1; pos=fast+(o.n-fast)*(1+C3*u*u*u+BACK*u*u); }
+      var t=ts-t0, k=Math.min(Math.floor(t/cycle), o.n-1), u=t-k*cycle, last=(k===o.n-1), e;
+      var p=Math.min(u/(last?SLIDE*1.9:SLIDE),1);
+      if(last){ var q=p-1; e=1+C3*q*q*q+BACK*q*q; }   // overshoot, then snap back
+      else e=1-Math.pow(1-p,2.2);
+      var pos=k+e;
       o.reel.style.transform='translate3d(0,'+(-pos*step).toFixed(2)+'px,0)';
       o.reel.style.filter='blur('+Math.min(BLUR_MAX,Math.abs(pos-prev)*step*BLUR_K).toFixed(2)+'px)';
       prev=pos;
-      if(p<1) requestAnimationFrame(frame);
-      else { o.reel.style.filter=''; o.el.classList.remove('spinning'); }
+      if(!(last && p>=1)) requestAnimationFrame(frame);
+      else { o.reel.style.filter=''; o.el.classList.remove('spinning'); o.done=false; o.last=Date.now(); }
     });
   }
   function spinCheck(){
     if(!reels.length) return;
-    var vh=w.innerHeight||d.documentElement.clientHeight, keep=[];
+    var vh=w.innerHeight||d.documentElement.clientHeight;
     reels.forEach(function(o){
-      var r=o.el.getBoundingClientRect();
-      if(!o.done && r.top < vh*0.88 && r.bottom > 0) setTimeout(function(){ spin(o); }, o.delay);
-      else if(!o.done) keep.push(o);
+      var r=o.el.getBoundingClientRect(), inView=r.top < vh*0.88 && r.bottom > 0;
+      if(!inView){ o.away=true; return; }
+      if(o.done || !o.away) return;                       // already running, or never left
+      if(o.last && Date.now()-o.last < REARM) return;     // a flick past does not re-trigger
+      o.away=false; o.done=true;                          // claim it before the delay elapses
+      setTimeout(function(){ o.done=false; spin(o); }, o.delay);
     });
-    reels=keep;
   }
   spinCheck(); w.addEventListener('scroll', spinCheck, {passive:true}); setTimeout(spinCheck, 300);
 
