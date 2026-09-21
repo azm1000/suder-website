@@ -83,6 +83,7 @@ HOME_SLIDES = [
     ("hero-roebling.jpg", "The Roebling Suspension Bridge: Ohio and Northern Kentucky"),
     ("hero-statehouse.jpg", "The Ohio Statehouse, Columbus"),
     ("hero-toledo.jpg", "Downtown Toledo"),
+    ("hero-cleveland.jpg", "Downtown Cleveland"),
     ("hero-city-hall.jpg", "Cincinnati City Hall: where our founder served as Chief Counsel for Land Use and Planning"),
     ("hero-courthouse.jpg", "Hamilton County Courthouse: home of our published appellate wins"),
     ("hero-vine-street.jpg", "Vine Street, Over-the-Rhine: our neighborhood"),
