@@ -9,7 +9,7 @@ import landing_content as LC
 
 ROOT = Path(__file__).resolve().parent.parent
 PUB = ROOT / "public"
-V = "20260921l"  # cache-bust for css/js
+V = "20260921m"  # cache-bust for css/js
 
 def esc(s): return html.escape(s, quote=True)
 
@@ -171,7 +171,10 @@ def awards_grid():
     out = ""
     for a in AWARDS:
         img = f'<img src="/assets/img/{a["img"]}" alt="{esc(a["alt"])}" loading="lazy">' if a["img"] else '<div class="ph">Chambers<br>Spotlight</div>'
-        out += f'<div class="award reveal">{img}<div><b>{esc(a["title"])}</b><span>{esc(a["sub"])}</span></div></div>'
+        inner = f'{img}<div><b>{esc(a["title"])}</b><span>{esc(a["sub"])}</span></div>'
+        url = a.get("url")
+        out += (f'<a class="award reveal" href="{esc(url)}" target="_blank" rel="noopener">{inner}</a>'
+                if url else f'<div class="award reveal">{inner}</div>')
     return f'<div class="awards">{out}</div>'
 
 def people_grid():

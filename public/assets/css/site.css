@@ -171,6 +171,9 @@ body.menu-open{overflow:hidden}
 
 /* awards */
 .awards{display:grid;grid-template-columns:repeat(4,1fr);gap:22px;align-items:stretch}
+/* an award with a listing URL renders as a link and lifts like the practice cards */
+.award[href]{transition:transform .4s var(--ease),box-shadow .4s var(--ease),border-color .4s}
+.award[href]:hover{transform:translateY(-4px);box-shadow:0 24px 48px -28px rgba(17,20,24,.3);border-color:rgba(17,20,24,.25)}
 .award{background:var(--white);border:1px solid var(--line);border-radius:var(--radius);padding:26px;display:flex;flex-direction:column;align-items:center;text-align:center;gap:16px}
 .award img{height:150px;width:auto;object-fit:contain}
 .award .ph{height:150px;width:100%;display:grid;place-items:center;font-family:var(--display);font-size:38px;color:var(--navy);line-height:1}

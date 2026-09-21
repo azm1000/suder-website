@@ -58,7 +58,7 @@ LANDING_TO_SLUG = {
 PRACTICE_BLURBS = {
     "land-use-zoning": "Rezonings, variances, PUDs, appeals, and zoning opinions. At Suder, zoning is not another practice area; it is the practice area.",
     "real-property-litigation": "Trial and appellate counsel in real property disputes, with published decisions in Ohio's courts of appeals.",
-    "real-estate-transactions": "Acquisitions, leasing, joint ventures, financings, and condominium structures, handled by former big-firm partners.",
+    "real-estate-transactions": "Acquisitions, leasing, joint ventures, financings, and condominium structures, handled by former big-firm lawyers.",
     "eminent-domain": "More than 100 property owners represented in appropriation, inverse condemnation, and regulatory takings matters.",
     "historic-preservation": "Certificates of appropriateness, landmark designations, and the fight to keep the buildings worth keeping.",
     "real-estate-taxation": "Valuation challenges before boards of revision and the Board of Tax Appeals, and abatements that make projects pencil.",
@@ -197,13 +197,14 @@ OPINIONS = [
 JURISDICTIONS = """Anderson Township|Boone County, KY|Butler County|City of Akron|City of Beavercreek|City of Bellevue, KY|City of Blue Ash|City of Canal Winchester|City of Centerville|City of Cincinnati|City of Cleveland Heights|City of Columbus|City of Fairborn|City of Fairfield|City of Florence, KY|City of Forest Park|City of Franklin|City of Ft. Wright, KY|City of Hamilton|Henry County|City of Kettering|City of Lebanon|City of Loveland|City of Madeira|City of Mason|City of McComb|City of Milford|City of Monroe|City of Montgomery|City of Norwood|City of Oxford|City of Piqua|City of Springboro|City of Springdale|City of Toledo|City of The Village of Indian Hill|City of Union, KY|City of Vandalia|City of West Chester|City of Westlake|City of Wyoming|Clermont County|Colerain Township|Deerfield Township|Fairfield Township|Goshen Township|Green Township|Hamilton County|Harrison Township|Kenton County, KY|Liberty Township|Miami Township|Pierce Township|Sycamore Township|Symmes Township|Village of Addyston|Village of Evendale|Village of Gates Mills|Village of Kirtland Hills|Village of Lockland|Village of South Lebanon|Village of Woodlawn|Warren County|Washington Township|West Chester Township""".split("|")
 
 AWARDS = [
+    # url="" renders the badge as plain artwork; set one and it becomes a link to the listing
     dict(img="badge-best-lawyers-loty-2026.png", alt="Best Lawyers Lawyer of the Year 2026, Sean S. Suder, Land Use and Zoning Law, Cincinnati",
-         title="Lawyer of the Year 2026", sub="Best Lawyers · Land Use and Zoning Law · Cincinnati"),
+         title="Lawyer of the Year 2026", sub="Best Lawyers · Land Use and Zoning Law · Cincinnati", url=""),
     dict(img="badge-chambers-2026.png", alt="Chambers USA Top Ranked 2026, Sean Suder",
-         title="Chambers USA, Band 1", sub="Ohio Real Estate: Zoning/Land Use, every year since 2019"),
+         title="Chambers USA, Band 1", sub="Ohio Real Estate: Zoning/Land Use, every year since 2019", url=""),
     dict(img="badge-best-law-firms-2026.png", alt="Best Law Firms 2026, ranked by Best Lawyers",
-         title="Best Law Firms 2026", sub="Ranked by Best Lawyers · United States"),
-    dict(img=None, alt="", title="Chambers Spotlight Firm", sub="Cincinnati Real Estate · 2025 and 2026"),
+         title="Best Law Firms 2026", sub="Ranked by Best Lawyers · United States", url=""),
+    dict(img=None, alt="", title="Chambers Spotlight Firm", sub="Cincinnati Real Estate · 2025 and 2026", url=""),
 ]
 
 CREDENTIALS = [
