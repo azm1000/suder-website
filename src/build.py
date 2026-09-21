@@ -9,7 +9,7 @@ import landing_content as LC
 
 ROOT = Path(__file__).resolve().parent.parent
 PUB = ROOT / "public"
-V = "20260921k"  # cache-bust for css/js
+V = "20260921l"  # cache-bust for css/js
 
 def esc(s): return html.escape(s, quote=True)
 
@@ -151,8 +151,7 @@ def practice_cards(exclude=None):
     for s, n in PRACTICES:
         if s == exclude: continue
         i += 1
-        dark = ' card-dark' if s == "land-use-zoning" else ""
-        out += f'<a class="card{dark} reveal" data-delay="{i%3}" href="/practice/{s}/"><div class="num">0{i}</div><h3>{esc(n)}</h3><p>{esc(PRACTICE_BLURBS[s])}</p><span class="link">Explore{ARROW}</span></a>'
+        out += f'<a class="card reveal" data-delay="{i%3}" href="/practice/{s}/"><div class="num">0{i}</div><h3>{esc(n)}</h3><p>{esc(PRACTICE_BLURBS[s])}</p><span class="link">Explore{ARROW}</span></a>'
     return out
 
 def result_row(r):
