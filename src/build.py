@@ -9,7 +9,7 @@ import landing_content as LC
 
 ROOT = Path(__file__).resolve().parent.parent
 PUB = ROOT / "public"
-V = "20260921m"  # cache-bust for css/js
+V = "20260921o"  # cache-bust for css/js
 
 def esc(s): return html.escape(s, quote=True)
 
