@@ -201,8 +201,8 @@ AWARDS = [
          title="Lawyer of the Year 2026", sub="Best Lawyers · Land Use and Zoning Law · Cincinnati"),
     dict(img="badge-chambers-2025.jpg", alt="Chambers USA Top Ranked 2025, Sean Suder",
          title="Chambers USA, Band 1", sub="Ohio Real Estate: Zoning/Land Use, every year since 2019"),
-    dict(img="badge-best-law-firms-2025.png", alt="Best Law Firms 2025, ranked by Best Lawyers",
-         title="Best Law Firms 2025", sub="Ranked by Best Lawyers · United States"),
+    dict(img="badge-best-law-firms-2026.png", alt="Best Law Firms 2026, ranked by Best Lawyers",
+         title="Best Law Firms 2026", sub="Ranked by Best Lawyers · United States"),
     dict(img=None, alt="", title="Chambers Spotlight Firm", sub="Cincinnati Real Estate · 2025 and 2026"),
 ]
 
