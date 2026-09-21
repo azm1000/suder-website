@@ -9,7 +9,7 @@ import landing_content as LC
 
 ROOT = Path(__file__).resolve().parent.parent
 PUB = ROOT / "public"
-V = "20260920f"  # cache-bust for css/js
+V = "20260921a"  # cache-bust for css/js
 
 def esc(s): return html.escape(s, quote=True)
 
@@ -183,9 +183,15 @@ def people_grid():
 def marquee():
     return '<div class="marquee" aria-hidden="true"><div class="marquee-track">' + "".join(f"<span>{esc(j)}</span>" for j in JURISDICTIONS) + '</div></div>'
 
+def spinner():
+    """Slot-machine tagline: practice areas reel past, then settle on the firm line.
+    The final text is the real DOM text, so no-JS and reduced-motion get it verbatim."""
+    return (f'<div class="spin reveal"><span class="spin-pre">Counsel for</span>'
+            f'<span class="spin-word" data-spin="{esc("|".join(SPIN_WORDS))}">the Built Environment.</span></div>')
+
 def cta(h="Let's talk about your property.", sub="Tell us what you are trying to build, buy, keep, or defend. We will tell you plainly how we can help."):
     return f'''<section class="cta"><div class="wrap">
-  <div><h2 class="reveal">{esc(h)}</h2><p class="lede reveal" data-delay="1">{esc(sub)}</p><div class="reveal" data-delay="2" style="margin-top:26px">{btn("/contact/", "Get in touch")}</div></div>
+  <div>{spinner()}<h2 class="reveal" data-delay="1">{esc(h)}</h2><p class="lede reveal" data-delay="1">{esc(sub)}</p><div class="reveal" data-delay="2" style="margin-top:26px">{btn("/contact/", "Get in touch")}</div></div>
   <div class="contact-lines reveal" data-delay="2">{esc(FIRM["address1"])}<br>{esc(FIRM["address2"])}<br><span class="muted">{esc(FIRM["address_note"])}</span><br><a href="tel:{FIRM["phone_tel"]}">{esc(FIRM["phone"])}</a><br><a href="mailto:{FIRM["email"]}">{esc(FIRM["email"])}</a></div>
 </div></section>'''
 

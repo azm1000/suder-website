@@ -214,6 +214,17 @@ body.menu-open{overflow:hidden}
 .cta .contact-lines{font-size:16px;line-height:1.8;color:rgba(255,255,255,.85)}
 .cta .contact-lines a:hover{color:var(--brass-2)}
 
+/* slot-machine tagline: practice areas reel past, settling on the firm line */
+.spin{display:flex;flex-wrap:wrap;align-items:baseline;gap:.34em;font-family:var(--display);
+  font-size:clamp(21px,2.5vw,32px);line-height:1.15;letter-spacing:-.01em;margin-bottom:16px;color:rgba(255,255,255,.66)}
+.spin-word{display:inline-block;position:relative;overflow:hidden;height:1.15em;font-style:italic;color:var(--brass-2)}
+.spin-word .reel{display:block;will-change:transform}
+.spin-word .reel > span{display:block;height:1.15em;white-space:nowrap}
+.spin-word.spinning{-webkit-mask-image:linear-gradient(180deg,transparent 0,#000 26%,#000 74%,transparent 100%);
+  mask-image:linear-gradient(180deg,transparent 0,#000 26%,#000 74%,transparent 100%)}
+.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap;border:0}
+@media (max-width:520px){.spin{font-size:19px}}
+
 /* chips (results filter) */
 .chips{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:30px}
 .chip{border:1px solid var(--line);border-radius:999px;padding:8px 14px;font-size:13.5px;font-weight:500;background:transparent;cursor:pointer;color:var(--ink);transition:.25s}

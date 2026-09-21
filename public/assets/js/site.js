@@ -88,6 +88,51 @@
     d.addEventListener('visibilitychange', function(){ if(d.hidden) clearInterval(timer); else restart(); });
   });
 
+  // Slot-machine tagline: reel the practice areas past, then settle on the firm line
+  var reels=[];
+  d.querySelectorAll('.spin-word[data-spin]').forEach(function(el){
+    var words=(el.dataset.spin||'').split('|').filter(Boolean), settle=el.textContent.trim();
+    if(!words.length || !settle || reduce) return;
+    var items=words.concat(words).concat([settle],[words[0]]); // two passes, the firm line, then a decoy the bounce reveals
+    var sr=d.createElement('span'); sr.className='sr-only'; sr.textContent=settle;
+    var reel=d.createElement('span'); reel.className='reel'; reel.setAttribute('aria-hidden','true');
+    items.forEach(function(t){ var i=d.createElement('span'); i.textContent=t; reel.appendChild(i); });
+    el.textContent=''; el.appendChild(sr); el.appendChild(reel);
+    reels.push({el:el, reel:reel, n:items.length-2, done:false});  // land on the firm line, not the decoy
+  });
+  // Two phases, as a real reel: constant fast spin, then a decelerating settle that
+  // overshoots by a hair and snaps back into the detent. FAST is solved from the
+  // constants so velocity is continuous across the hand-off (no visible hitch).
+  var HOLD=.58, BACK=.9, C3=BACK+1, V0=3*C3-2*BACK;
+  function spin(o){
+    o.done=true;
+    var step=o.reel.getBoundingClientRect().height/(o.n+2), dur=1700, t0=null, prev=0;
+    var fast=V0*HOLD*o.n/(1-HOLD+V0*HOLD);
+    o.el.classList.add('spinning');
+    requestAnimationFrame(function frame(ts){
+      if(t0===null) t0=ts;
+      var p=Math.min((ts-t0)/dur,1), pos;
+      if(p<HOLD) pos=p/HOLD*fast;
+      else { var u=(p-HOLD)/(1-HOLD)-1; pos=fast+(o.n-fast)*(1+C3*u*u*u+BACK*u*u); }
+      o.reel.style.transform='translate3d(0,'+(-pos*step).toFixed(2)+'px,0)';
+      o.reel.style.filter='blur('+Math.min(2.2,Math.abs(pos-prev)*step*.22).toFixed(2)+'px)';
+      prev=pos;
+      if(p<1) requestAnimationFrame(frame);
+      else { o.reel.style.filter=''; o.el.classList.remove('spinning'); }
+    });
+  }
+  function spinCheck(){
+    if(!reels.length) return;
+    var vh=w.innerHeight||d.documentElement.clientHeight, keep=[];
+    reels.forEach(function(o){
+      var r=o.el.getBoundingClientRect();
+      if(!o.done && r.top < vh*0.88 && r.bottom > 0) setTimeout(function(){ spin(o); }, 260);
+      else if(!o.done) keep.push(o);
+    });
+    reels=keep;
+  }
+  spinCheck(); w.addEventListener('scroll', spinCheck, {passive:true}); setTimeout(spinCheck, 300);
+
   // Current year
   d.querySelectorAll('[data-year]').forEach(function(el){ el.textContent=new Date().getFullYear(); });
 })();

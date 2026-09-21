@@ -24,6 +24,16 @@ PRACTICES = [
     ("real-estate-taxation", "Real Estate Taxation"),
     ("local-counsel", "Local Counsel & Co-Counsel"),
 ]
+# short practice-area labels for the CTA slot-machine tagline (settles on FIRM["tagline"])
+SPIN_WORDS = [
+    "Land Use & Zoning",
+    "Eminent Domain",
+    "Historic Preservation",
+    "Real Estate Taxation",
+    "Real Property Litigation",
+    "Real Estate Transactions",
+    "Local Counsel",
+]
 # map landing_content page names -> slug
 LANDING_TO_SLUG = {
     "Land Use & Zoning Page": "land-use-zoning",
