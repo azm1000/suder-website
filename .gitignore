@@ -1,3 +1,5 @@
 .DS_Store
 __pycache__/
 *.pyc
+src/signature/dist-outlook/
+src/signature/suder-outlook-signatures.zip
