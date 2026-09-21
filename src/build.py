@@ -211,7 +211,7 @@ def build_home():
     featured = [r for r in RESULTS if r.get("featured")]
     body = hero(
         hero_spin_h1(),
-        "Ohio's land use and zoning counsel, with a commercial real estate practice built by former big-firm partners. At Suder, zoning is not just another practice area. It is the practice area.",
+        "Ohio's land use and zoning counsel, with a commercial real estate practice built by former big-firm lawyers. At Suder, zoning is not just another practice area. It is the practice area.",
         btn("/contact/", "Get in touch") + btn("/practice/land-use-zoning/", "Explore our work", "outline"),
         slides=HOME_SLIDES, tag="Ohio + Northern Kentucky",
         eyebrow="Land use · Real estate · Litigation")
