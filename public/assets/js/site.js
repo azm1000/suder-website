@@ -93,7 +93,7 @@
   d.querySelectorAll('.spin-word[data-spin]').forEach(function(el){
     var words=(el.dataset.spin||'').split('|').filter(Boolean), settle=el.textContent.trim();
     if(!words.length || !settle || reduce) return;
-    var items=words.concat(words).concat([settle],[words[0]]); // two passes, the firm line, then a decoy the bounce reveals
+    var items=words.concat([settle],[words[0]]);              // one readable pass, the firm line, then a decoy the bounce reveals
     var sr=d.createElement('span'); sr.className='sr-only'; sr.textContent=settle;
     var reel=d.createElement('span'); reel.className='reel'; reel.setAttribute('aria-hidden','true');
     items.forEach(function(t){ var i=d.createElement('span'); i.textContent=t; reel.appendChild(i); });
@@ -103,10 +103,10 @@
   // Two phases, as a real reel: constant fast spin, then a decelerating settle that
   // overshoots by a hair and snaps back into the detent. FAST is solved from the
   // constants so velocity is continuous across the hand-off (no visible hitch).
-  var HOLD=.58, BACK=.9, C3=BACK+1, V0=3*C3-2*BACK;
+  var HOLD=.62, BACK=.9, C3=BACK+1, V0=3*C3-2*BACK, DUR=2150;
   function spin(o){
     o.done=true;
-    var step=o.reel.getBoundingClientRect().height/(o.n+2), dur=1700, t0=null, prev=0;
+    var step=o.reel.getBoundingClientRect().height/(o.n+2), dur=DUR, t0=null, prev=0;
     var fast=V0*HOLD*o.n/(1-HOLD+V0*HOLD);
     o.el.classList.add('spinning');
     requestAnimationFrame(function frame(ts){
@@ -115,7 +115,7 @@
       if(p<HOLD) pos=p/HOLD*fast;
       else { var u=(p-HOLD)/(1-HOLD)-1; pos=fast+(o.n-fast)*(1+C3*u*u*u+BACK*u*u); }
       o.reel.style.transform='translate3d(0,'+(-pos*step).toFixed(2)+'px,0)';
-      o.reel.style.filter='blur('+Math.min(2.2,Math.abs(pos-prev)*step*.22).toFixed(2)+'px)';
+      o.reel.style.filter='blur('+Math.min(1.6,Math.abs(pos-prev)*step*.22).toFixed(2)+'px)';
       prev=pos;
       if(p<1) requestAnimationFrame(frame);
       else { o.reel.style.filter=''; o.el.classList.remove('spinning'); }

@@ -1,0 +1,34 @@
+<!doctype html><html><head><meta charset="utf-8">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;1,9..144,400&family=Inter:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  html,body{margin:0;background:#fff}
+  #stage{display:inline-flex;align-items:baseline;gap:.34em;background:#fff;
+    font-family:"Fraunces",Georgia,serif;font-size:22px;line-height:1.4;letter-spacing:-.005em;
+    color:#3f4650;padding:5px 9px;white-space:nowrap}
+  #word{display:inline-block;overflow:hidden;height:1.4em;font-style:italic;color:#a8823c;position:relative}
+  #reel{display:block}
+  #reel>span{display:block;height:1.4em;white-space:nowrap}
+</style></head><body>
+<div id="stage"><span>Counsel for</span><span id="word"><span id="reel"></span></span></div>
+<script>
+  // same words and easing as the site's closing block
+  var AREAS=["Land Use & Zoning","Eminent Domain","Historic Preservation","Real Estate Taxation","Real Property Litigation","Real Estate Transactions","Local Counsel"];
+  var SETTLE="the Built Environment.";
+  var items=[SETTLE].concat(AREAS,[SETTLE]);           // starts settled so frame 1 is the resting line
+  var reel=document.getElementById('reel');
+  items.forEach(function(t){var s=document.createElement('span');s.textContent=t;reel.appendChild(s);});
+  var N=items.length-1, step=0, prev=0;
+  var HOLD=.62, BACK=.9, C3=BACK+1, V0=3*C3-2*BACK, DUR=2150;
+  var fast=V0*HOLD*N/(1-HOLD+V0*HOLD);
+  window.measure=function(){ step=reel.getBoundingClientRect().height/items.length;
+    var w=document.getElementById('stage').getBoundingClientRect();
+    return {step:step, width:Math.ceil(w.width), height:Math.ceil(w.height), items:items.length}; };
+  window.render=function(ms){                            // deterministic: position for a given time
+    var p=Math.min(ms/DUR,1), pos;
+    if(p<HOLD) pos=p/HOLD*fast;
+    else { var u=(p-HOLD)/(1-HOLD)-1; pos=fast+(N-fast)*(1+C3*u*u*u+BACK*u*u); }
+    reel.style.transform='translate3d(0,'+(-pos*step).toFixed(2)+'px,0)';
+    reel.style.filter=(ms<=0||p>=1)?'':'blur('+Math.min(1.6,Math.abs(pos-prev)*step*.22).toFixed(2)+'px)';
+    prev=pos; return pos; };
+</script></body></html>
