@@ -1,9 +1,8 @@
-from site_content import JURISDICTIONS
+from site_content import JCOUNT
 
-# One source of truth for the jurisdiction count: the list itself. Every "N
-# jurisdictions" claim on the site reads it, so the number can never drift from
+# One source of truth for the jurisdiction count: the list in site_content. Every
+# "N+ jurisdictions" claim on the site reads it, so the number cannot drift from
 # what /jurisdictions/ actually shows.
-NJ = len(JURISDICTIONS)
 
 # Content for the seven Suder, LLC practice-area landing pages.
 # Each page: image_desc, image_text, licensed, heading, subheading, button,
@@ -44,7 +43,7 @@ PAGES = [
             "City of Cincinnati's Chief Counsel for Land Use and Planning, was lead "
             "counsel for the City's land development code, and now rewrites zoning codes "
             "for cities across the country through his consulting firm, ZoneCo. That "
-            f"inside knowledge, applied in {NJ} jurisdictions across Ohio and "
+            f"inside knowledge, applied in {JCOUNT} jurisdictions across Ohio and "
             "Northern Kentucky, is why Chambers USA has ranked Sean in Band 1 for Ohio "
             "Real Estate: Zoning/Land Use every year since 2019."
         ),
@@ -452,7 +451,7 @@ PAGES = [
             "Suder serves as local counsel, co-counsel, and pro hac vice sponsor for "
             "national and regional law firms and their clients on zoning, land use, real "
             "estate, and property litigation matters across Ohio and Northern Kentucky, "
-            f"where we have appeared in {NJ} jurisdictions. Our lawyers are "
+            f"where we have appeared in {JCOUNT} jurisdictions. Our lawyers are "
             "licensed in Ohio, Kentucky, Texas, New York, and Washington, D.C., admitted "
             "in the federal courts in Ohio, and were partners at firms such as Norton "
             "Rose Fulbright, Greenberg Traurig, and Calfee, so we know exactly what "
@@ -468,7 +467,7 @@ PAGES = [
             "Co-counsel on multi-state portfolio acquisitions, joint ventures, leases, and financings with Ohio, Kentucky, Texas, or New York components",
             "Zoning opinion and verification letters for lenders (Ohio, Kentucky, and D.C.)",
             "Expert witness and consulting services on zoning and land use; Texas condominium law consulting",
-            f"Public records requests and entitlement due diligence in {NJ} jurisdictions",
+            f"Public records requests and entitlement due diligence in {JCOUNT} jurisdictions",
         ],
         results=[
             ("Co-counsel to Am Law 25 and Am Law 50 firms",
@@ -484,7 +483,7 @@ PAGES = [
              "to costly title-insurance zoning endorsements. A short example of a letter "
              "that unblocked a closing would work well here."),
             ("Statewide reach: Cleveland, Columbus, Toledo, Akron",
-             f"Suder has represented clients in {NJ} Ohio and Northern Kentucky "
+             f"Suder has represented clients in {JCOUNT} Ohio and Northern Kentucky "
              "jurisdictions, including Cleveland's Playhouse Square tower financing and "
              "matters in Columbus, Toledo, Akron, and Westlake. Consider a map graphic "
              "built from the firm's jurisdictions list."),
@@ -511,7 +510,7 @@ AWARDS = [
 CREDENTIALS = [
     "Attorneys licensed in Ohio, Kentucky, Texas, New York, and Washington, D.C.; admitted in the U.S. District Courts for the Southern and Northern Districts of Ohio; pro hac vice experience in Kentucky and West Virginia",
     "Former partners at Norton Rose Fulbright, Greenberg Traurig, Calfee, and Graydon (with training at Skadden and KMK); 23+ years of big-firm transactional experience through of counsel Josh Bernstein (development transactions, joint ventures, debt and equity financing, fund formation, M&A, condominium structuring, senior housing)",
-    f"Zoning matters handled in {NJ} jurisdictions across Ohio and Northern Kentucky",
+    f"Zoning matters handled in {JCOUNT} jurisdictions across Ohio and Northern Kentucky",
     "Active member, CREDA Cincinnati (the Commercial Real Estate Development Association serving Southwest Ohio and Northern Kentucky; NAIOP's local chapter) (Josh Bernstein)",
     "Founder served as the City of Cincinnati's Chief Counsel for Land Use and Planning (2010-2014)",
     "Adjunct Professor of Land Use and Development Law, University of Cincinnati College of Law",

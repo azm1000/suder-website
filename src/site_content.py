@@ -313,6 +313,11 @@ DATA_CENTERS = dict(
 
 JURISDICTIONS = """Anderson Township|Boone County, KY|Butler County|City of Akron|City of Beavercreek|City of Bellevue, KY|City of Blue Ash|City of Canal Winchester|City of Centerville|City of Cincinnati|City of Cleveland Heights|City of Columbus|City of Fairborn|City of Fairfield|City of Florence, KY|City of Forest Park|City of Franklin|City of Ft. Wright, KY|City of Hamilton|Henry County|City of Kettering|City of Lebanon|City of Loveland|City of Madeira|City of Mason|City of McComb|City of Milford|City of Monroe|City of Montgomery|City of Norwood|City of Oxford|City of Piqua|City of Springboro|City of Springdale|City of Toledo|City of The Village of Indian Hill|City of Union, KY|City of Vandalia|City of West Chester|City of Westlake|City of Wilmington|City of Wyoming|Clermont County|Colerain Township|Deerfield Township|Fairfield Township|Goshen Township|Green Township|Hamilton County|Harrison Township|Kenton County, KY|Liberty Township|Miami Township|Pierce Township|Sycamore Township|Symmes Township|Village of Addyston|Village of Evendale|Village of Gates Mills|Village of Kirtland Hills|Village of Lockland|Village of South Lebanon|Village of Woodlawn|Warren County|Washington Township|West Chester Township""".split("|")
 
+# How the count is written everywhere on the site. The list is representative,
+# not exhaustive — Suder has appeared in jurisdictions it does not name here — so
+# the figure carries a plus. Derived, so adding an entry updates every page.
+JCOUNT = f"{len(JURISDICTIONS)}+"
+
 AWARDS = [
     # url="" renders the badge as plain artwork; set one and it becomes a link to the listing
     dict(img="badge-best-lawyers-loty-2026.png", alt="Best Lawyers Lawyer of the Year 2026, Sean S. Suder, Land Use and Zoning Law, Cincinnati",
@@ -325,7 +330,7 @@ AWARDS = [
 ]
 
 CREDENTIALS = [
-    (str(len(JURISDICTIONS)), "jurisdictions across Ohio and Northern Kentucky where we have handled zoning matters"),
+    (JCOUNT, "jurisdictions across Ohio and Northern Kentucky where we have handled zoning matters"),
     ("Band 1", "Chambers USA ranking for Sean Suder in Ohio Real Estate: Zoning/Land Use, every year since 2019"),
     ("100+", "property owners represented in eminent domain and takings matters"),
     ("5", "states of licensure: Ohio, Kentucky, Texas, New York, and Washington, D.C."),
