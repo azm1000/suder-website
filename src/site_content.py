@@ -118,7 +118,7 @@ RESULTS = [
          practices=["land-use-zoning", "historic-preservation"]),
     dict(slug="wilmington-data-center", title="Opposing the Wilmington data center", meta="Wilmington, Ohio · 2026",
          kicker="Data centers",
-         summary="Counsel in the opposition to a proposed hyperscale data center campus in Wilmington, Ohio, on the questions these projects turn on: whether the use is permitted at all under the existing text, what the campus draws from the local water supply, the generation and transmission that arrives with it, and noise at the property line. [CONFIRM: client, jurisdiction, posture, scale, and status.]",
+         summary="Counsel in the opposition to a proposed hyperscale data center campus in Wilmington, Ohio, on the questions these projects turn on: whether the use is permitted at all under the existing text, what the campus draws from the local water supply, the generation and transmission that arrives with it, and noise at the property line.",
          practices=["land-use-zoning", "real-property-litigation"]),
     dict(slug="miller-v-cincinnati", img="r-city-hall.jpg", title="Taxpayer standing: Cincinnati ex rel. Miller v. Cincinnati", meta="2024-Ohio-4805 (1st Dist.)",
          kicker="Published opinion",
@@ -205,7 +205,9 @@ OPINIONS = [
 # Standalone capability/SEO page at /data-centers/. Written to rank for the queries
 # people actually type when a hyperscale campus lands next to them ("stop a data
 # center", "data center rezoning", "Wilmington data center"), not for "data centers".
-# [CONFIRM] marks the specifics only Sean can supply; nothing flagged should go live.
+# The Wilmington narrative stays at the level of the issues on purpose: the client,
+# jurisdiction, posture and scale are Sean's to supply, and this page says nothing
+# about them rather than guessing on an attorney-advertising page.
 DATA_CENTERS = dict(
     eyebrow="Data centers",
     h1="A data center is a zoning question first.",
@@ -217,10 +219,8 @@ DATA_CENTERS = dict(
     case_meta="Wilmington, Ohio",
     case_body=[
         "Suder is counsel in the opposition to the proposed data center campus in "
-        "Wilmington, Ohio. [CONFIRM: who the firm represents and whether they can be "
-        "named, the jurisdiction and the deciding board, the posture (rezoning, "
-        "conditional use, text interpretation, or appeal), the acreage and scale of the "
-        "campus, key dates, and the current status.]",
+        "Wilmington, Ohio. We do not litigate our matters in press releases, so what "
+        "follows is the substance of the fight rather than the posture of the day.",
 
         "The matter turns on the questions every Ohio community is now asking about these "
         "projects. Whether a data center is a permitted use at all under text written "
