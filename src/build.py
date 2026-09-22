@@ -246,7 +246,7 @@ def build_home():
   <div class="split" style="align-items:end;margin-bottom:34px"><div><div class="eyebrow reveal">The team</div><h2 class="reveal">Lawyers and planners, under one roof.</h2></div><div class="reveal" data-delay="1"><span class="link" style="border-color:var(--brass-2)"><a href="/team/">Attorneys &amp; professionals</a>{ARROW}</span></div></div>
   {people_grid()}
 </div></section>'''
-    body += f'''<section class="section-tight" style="padding-bottom:0"><div class="wrap" style="text-align:center;margin-bottom:26px"><div class="eyebrow reveal" style="justify-content:center">Where we work</div><h3 class="reveal">Zoning matters in more than 60 jurisdictions across Ohio and Northern Kentucky</h3><div class="reveal" data-delay="1">{link("/jurisdictions/", "See the list")}</div></div>{marquee()}</section>'''
+    body += f'''<section class="section-tight" style="padding-bottom:0"><div class="wrap" style="text-align:center;margin-bottom:26px"><div class="eyebrow reveal" style="justify-content:center">Where we work</div><h3 class="reveal">Zoning matters in {len(JURISDICTIONS)} jurisdictions across Ohio and Northern Kentucky</h3><div class="reveal" data-delay="1">{link("/jurisdictions/", "See the list")}</div></div>{marquee()}</section>'''
     body += cta()
     write("/", page("Suder, LLC | Counsel for the Built Environment | Ohio Land Use, Zoning & Real Estate Law", "Suder, LLC is a Cincinnati commercial real estate and land use law firm: zoning, real property litigation and appeals, transactions, eminent domain, historic preservation, real estate taxation, and local counsel across Ohio and Northern Kentucky.", body, "/"))
 
@@ -261,7 +261,7 @@ def build_practices():
         cred = f'''<div class="credbar"><div class="wrap">
   <div class="item"><b>Band 1</b><span>Chambers USA, Ohio Zoning/Land Use, every year since 2019</span></div>
   <div class="item"><b>2026</b><span>Best Lawyers "Lawyer of the Year," Land Use and Zoning Law, Cincinnati</span></div>
-  <div class="item"><b>60+</b><span>jurisdictions across Ohio and Northern Kentucky</span></div>
+  <div class="item"><b>{len(JURISDICTIONS)}</b><span>jurisdictions across Ohio and Northern Kentucky</span></div>
   <div class="item"><b>5</b><span>states of licensure: OH, KY, TX, NY, and D.C.</span></div>
 </div></div>'''
         results_html = ""
@@ -302,10 +302,10 @@ def build_opinions():
 
 def build_jurisdictions():
     lis = "".join(f"<li>{esc(j)}</li>" for j in JURISDICTIONS)
-    body = f'''<section class="page-head"><div class="wrap"><div class="eyebrow">Jurisdictions</div><h1>{len(JURISDICTIONS)}+ jurisdictions. One firm.</h1><p class="lede">We have represented clients on zoning matters in more than 60 jurisdictions in Ohio and Northern Kentucky, from Cincinnati's neighborhoods to Cleveland, Columbus, Toledo, and Akron.</p></div></section>
+    body = f'''<section class="page-head"><div class="wrap"><div class="eyebrow">Jurisdictions</div><h1>{len(JURISDICTIONS)} jurisdictions. One firm.</h1><p class="lede">We have represented clients on zoning matters in {len(JURISDICTIONS)} jurisdictions in Ohio and Northern Kentucky, from Cincinnati's neighborhoods to Cleveland, Columbus, Toledo, and Akron.</p></div></section>
 {marquee()}
 <section><div class="wrap"><ul class="list-cols">{lis}</ul></div></section>''' + cta("Your project is in a jurisdiction we know.", "Boards, staff, codes, and neighbors: we have probably been in that hearing room before.")
-    write("/jurisdictions/", page("Jurisdictions", "Suder, LLC has handled zoning matters in more than 60 jurisdictions across Ohio and Northern Kentucky.", body, "/jurisdictions/", dark_hero=False))
+    write("/jurisdictions/", page("Jurisdictions", f"Suder, LLC has handled zoning matters in {len(JURISDICTIONS)} jurisdictions across Ohio and Northern Kentucky.", body, "/jurisdictions/", dark_hero=False))
 
 def build_zoning_letters():
     body = f'''<section class="page-head"><div class="wrap"><div class="eyebrow">Zoning letters &amp; opinions</div><h1>Zoning verification letters and zoning opinions.</h1><p class="lede">Now offered in Ohio, Kentucky, and Washington, D.C.</p></div></section>
