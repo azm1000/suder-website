@@ -9,7 +9,7 @@ import landing_content as LC
 
 ROOT = Path(__file__).resolve().parent.parent
 PUB = ROOT / "public"
-V = "20260921o"  # cache-bust for css/js
+V = "20260922a"  # cache-bust for css/js
 
 def esc(s): return html.escape(s, quote=True)
 
@@ -199,7 +199,7 @@ def hero_spin_h1():
     size practice area cannot fit on one line."""
     return ('<span class="spin-pre">Counsel for</span>'
             f'<span class="spin-word" data-spin="{esc("|".join(HERO_SPIN_WORDS))}"'
-            ' data-spin-delay="750" data-spin-min="700">the Built Environment.</span>')
+            ' data-spin-delay="750" data-spin-min="430">the Built Environment.</span>')
 
 def cta(h="Let's talk about your property.", sub="Tell us what you are trying to build, buy, keep, or defend. We will tell you plainly how we can help."):
     return f'''<section class="cta"><div class="wrap">

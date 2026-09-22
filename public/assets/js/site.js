@@ -137,7 +137,9 @@
       var r=o.el.getBoundingClientRect(), inView=r.top < vh*0.88 && r.bottom > 0;
       if(!inView){ o.away=true; return; }
       if(o.done || !o.away) return;                       // already running, or never left
-      if(o.last && Date.now()-o.last < REARM) return;     // a flick past does not re-trigger
+      // Too soon after the last roll: consume this return rather than leaving it
+      // armed, or the next stray scroll event fires a roll under the reader.
+      if(o.last && Date.now()-o.last < REARM){ o.away=false; return; }
       o.away=false; o.done=true;                          // claim it before the delay elapses
       setTimeout(function(){ o.done=false; spin(o); }, o.delay);
     });
