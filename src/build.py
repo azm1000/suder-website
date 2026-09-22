@@ -381,13 +381,20 @@ def build_team():
         paras = "".join(f'<p class="reveal">{esc(x)}</p>' for x in t["bio"])
         facts = "".join(f'<h3>{esc(h)}</h3><ul>' + "".join(f"<li>{esc(i)}</li>" for i in items) + "</ul>" for h, items in t["sections"])
         mail = t["email"]
+        # The firm tagline is a claim about practising law, so only the admitted
+        # lawyers close with it. Todd Kinskey is a city planner, and the line read as
+        # though he were counsel. Keyed off "Esq." so anyone added later is left out
+        # by default rather than needing to be remembered.
+        closing = ('<p class="reveal" style="font-family:var(--display);font-style:italic;font-size:20px">'
+                   f'{esc(t["first"])} is proud to be {esc(FIRM["tagline"])}.</p>'
+                   if "Esq." in t.get("suffix", "") else "")
         body = f'''<section class="bio-hero"><div class="wrap">
   <div class="ph reveal"><img src="/assets/img/{t["img"]}-portrait.jpg" alt="{esc(t["name"])}" width="900" height="1125" fetchpriority="high"></div>
   <div><span class="role reveal">{esc(t["role"])}</span><h1 class="reveal">{esc(t["name"])}<span style="display:block;font-size:.45em;color:var(--stone);margin-top:6px">{esc(t["suffix"])}</span></h1>
   <p class="lede reveal" data-delay="1">{esc(t["intro"])}</p>
   <div class="contact reveal" data-delay="2"><a href="mailto:{mail}" style="border-bottom:1px solid var(--brass)">{mail}</a><br>{esc(t["phones"])}</div></div>
 </div></section>
-<section class="bio-body" style="padding-top:20px"><div class="wrap"><div>{paras}<p class="reveal" style="font-family:var(--display);font-style:italic;font-size:20px">{esc(t["first"])} is proud to be Counsel for the Built Environment.</p></div><aside class="facts reveal">{facts}</aside></div></section>''' + cta(f"Reach {t['first']} directly.", "Or use the contact form and we will route your matter to the right person.")
+<section class="bio-body" style="padding-top:20px"><div class="wrap"><div>{paras}{closing}</div><aside class="facts reveal">{facts}</aside></div></section>''' + cta(f"Reach {t['first']} directly.", "Or use the contact form and we will route your matter to the right person.")
         write(f"/team/{t['slug']}/", page(f"{t['name']}, {t['suffix']}", t["intro"], body, f"/team/{t['slug']}/", dark_hero=False))
 
 def build_contact():
