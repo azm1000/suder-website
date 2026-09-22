@@ -111,6 +111,7 @@
   // longer and overshoots, so it snaps into the detent like a real reel.
   var SLIDE=140, DWELL=360, BACK=.9, C3=BACK+1, BLUR_K=.09, BLUR_MAX=.55;
   var REARM=4000;                 // scroll away and back after this and it rolls again
+  var REPEAT=15000;               // and, sitting still, it rolls again on its own
   function spin(o){
     o.done=true; o.last=Date.now();
     var step=o.reel.getBoundingClientRect().height/(o.n+2), t0=null, prev=0, cycle=SLIDE+DWELL;
@@ -136,15 +137,23 @@
     reels.forEach(function(o){
       var r=o.el.getBoundingClientRect(), inView=r.top < vh*0.88 && r.bottom > 0;
       if(!inView){ o.away=true; return; }
-      if(o.done || !o.away) return;                       // already running, or never left
-      // Too soon after the last roll: consume this return rather than leaving it
-      // armed, or the next stray scroll event fires a roll under the reader.
-      if(o.last && Date.now()-o.last < REARM){ o.away=false; return; }
-      o.away=false; o.done=true;                          // claim it before the delay elapses
+      if(o.done) return;                                  // already running
+      var since = o.last ? Date.now()-o.last : Infinity;
+      if(o.away && since >= REARM) o.away=false;          // came back after being properly away
+      else if(since < REPEAT){
+        // Too soon. Consume a return rather than leaving it armed, or the next
+        // stray scroll event fires a roll under the reader.
+        o.away=false; return;
+      }
+      o.done=true;                                        // claim it before the delay elapses
       setTimeout(function(){ o.done=false; spin(o); }, o.delay);
     });
   }
   spinCheck(); w.addEventListener('scroll', spinCheck, {passive:true}); setTimeout(spinCheck, 300);
+  // Scroll alone is not enough: a reader who lands on the page and stays put saw
+  // it roll once and never again. Tick so it comes round on its own; skip while the
+  // tab is hidden, where rAF is paused and the roll would stall mid-word.
+  if(reels.length) setInterval(function(){ if(!d.hidden) spinCheck(); }, 1000);
 
   // Current year
   d.querySelectorAll('[data-year]').forEach(function(el){ el.textContent=new Date().getFullYear(); });
