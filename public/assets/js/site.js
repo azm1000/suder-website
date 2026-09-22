@@ -52,15 +52,6 @@
   // Marquee: duplicate track for seamless loop
   d.querySelectorAll('.marquee-track').forEach(function(t){ t.innerHTML += t.innerHTML; });
 
-  // Results filter
-  var chips=d.querySelectorAll('.chip[data-filter]');
-  if(chips.length){
-    var rows=d.querySelectorAll('.row[data-tags]');
-    function apply(f){ chips.forEach(function(c){ c.classList.toggle('active', c.dataset.filter===f); }); rows.forEach(function(r){ r.classList.toggle('hidden', f!=='all' && r.dataset.tags.split(' ').indexOf(f)<0); }); }
-    chips.forEach(function(c){ c.addEventListener('click', function(){ apply(c.dataset.filter); history.replaceState(null,'', c.dataset.filter==='all'? location.pathname : '#'+c.dataset.filter); }); });
-    var h=location.hash.replace('#',''); var match=[].some.call(chips,function(c){return c.dataset.filter===h;}); apply(match?h:'all');
-  }
-
   // Netlify forms via fetch, with plain POST fallback
   d.querySelectorAll('form[data-netlify]').forEach(function(f){
     f.addEventListener('submit', function(e){

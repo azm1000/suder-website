@@ -116,6 +116,10 @@ RESULTS = [
          kicker="Entitlements",
          summary="Suder helped secure a key approval for an affordable senior housing project in one of Cincinnati's historic neighborhoods after the design was reworked to respect its context. Proof that the firm gets projects built in historic districts, not just blocked.",
          practices=["land-use-zoning", "historic-preservation"]),
+    dict(slug="wilmington-data-center", title="Opposing the Wilmington data center", meta="Wilmington, Ohio · 2026",
+         kicker="Data centers",
+         summary="Counsel in the opposition to a proposed hyperscale data center campus in Wilmington, Ohio, on the questions these projects turn on: whether the use is permitted at all under the existing text, what the campus draws from the local water supply, the generation and transmission that arrives with it, and noise at the property line. [CONFIRM: client, jurisdiction, posture, scale, and status.]",
+         practices=["land-use-zoning", "real-property-litigation"]),
     dict(slug="miller-v-cincinnati", img="r-city-hall.jpg", title="Taxpayer standing: Cincinnati ex rel. Miller v. Cincinnati", meta="2024-Ohio-4805 (1st Dist.)",
          kicker="Published opinion",
          summary="Representing the affordable housing developer, Over-the-Rhine Community Housing, Suder defeated a taxpayer suit attacking the City ordinance that approved the project. The First District vacated the judgment and ordered the case dismissed for lack of standing.",
@@ -196,6 +200,116 @@ OPINIONS = [
     ("Summary judgment in foreclosure", "HillStreet Fund III, L.P. v. Bloom", "2010-Ohio-2267 (2d Dist.)",
      "https://www.supremecourt.ohio.gov/rod/docs/pdf/2/2010/2010-Ohio-2267.pdf", None),
 ]
+
+# ------------------------------------------------------------------ data centers
+# Standalone capability/SEO page at /data-centers/. Written to rank for the queries
+# people actually type when a hyperscale campus lands next to them ("stop a data
+# center", "data center rezoning", "Wilmington data center"), not for "data centers".
+# [CONFIRM] marks the specifics only Sean can supply; nothing flagged should go live.
+DATA_CENTERS = dict(
+    eyebrow="Data centers",
+    h1="A data center is a zoning question first.",
+    lede=("Hyperscale campuses are arriving in Ohio faster than local zoning codes can "
+          "answer for them. Suder represents the neighbors, property owners, and "
+          "communities on the other side of those applications, using the same code "
+          "knowledge that gets projects approved to show a board why this one should not be."),
+    case_title="The Wilmington data center",
+    case_meta="Wilmington, Ohio",
+    case_body=[
+        "Suder is counsel in the opposition to the proposed data center campus in "
+        "Wilmington, Ohio. [CONFIRM: who the firm represents and whether they can be "
+        "named, the jurisdiction and the deciding board, the posture (rezoning, "
+        "conditional use, text interpretation, or appeal), the acreage and scale of the "
+        "campus, key dates, and the current status.]",
+
+        "The matter turns on the questions every Ohio community is now asking about these "
+        "projects. Whether a data center is a permitted use at all under text written "
+        "decades before anyone imagined one. What a campus of this size draws from the "
+        "local water supply. How much new generation, substation, and transmission "
+        "infrastructure arrives with it. What a wall of chillers and monthly generator "
+        "testing sounds like at the property line. And who is left holding a windowless "
+        "shell on the tax duplicate if the tenant leaves in fifteen years.",
+
+        "Those are not complaints a board can act on in that form. They have to be "
+        "translated into the criteria the community's own code actually gives it, and "
+        "put into a record that will survive an appeal. That translation is the work.",
+    ],
+    why_h="Why data centers are different.",
+    why=[
+        ("Water", "Evaporative cooling can draw millions of gallons a day. In communities "
+                  "on a constrained aquifer or a single municipal source, the water study "
+                  "is often the most consequential document in the file, and the one "
+                  "submitted last."),
+        ("Power", "The campus is the smaller half of the project. New substations, "
+                  "transmission corridors, and on-site generation follow it, and some of "
+                  "that infrastructure is approved by a different body, on a different "
+                  "timeline, after the zoning fight is over."),
+        ("Noise", "Chiller banks run continuously and backup generators are tested on a "
+                  "schedule. Most Ohio codes measure noise at the property line with "
+                  "standards written for a machine shop, not a 24-hour mechanical plant."),
+        ("Traffic and construction", "Years of construction traffic, then very few permanent "
+                  "jobs. The operating trip counts that make a traffic study look benign are "
+                  "the same numbers that undercut the economic case."),
+        ("Decommissioning", "A purpose-built data hall has close to no alternative use. "
+                  "Communities that thought about this in advance asked for decommissioning "
+                  "security and reuse conditions while they still had leverage."),
+        ("Abatements and PILOTs", "The incentive package is usually negotiated separately "
+                  "from the zoning approval and lands on a school district that was never at "
+                  "the table. It deserves its own review."),
+    ],
+    do_h="How we help.",
+    do=[
+        "Representation at planning commission, board of zoning appeals, township trustee, and council hearings",
+        "Administrative appeals of zoning and site plan decisions under R.C. Chapter 2506",
+        "Referendum petitions on township zoning amendments (R.C. 519.12(H)) and municipal rezoning ordinances",
+        "Declaratory judgment and injunction practice where a use is approved outside the code",
+        "Data center overlays, interim moratoria, and zoning text amendments for townships and municipalities",
+        "Review of PILOT agreements, CRA abatements, and host community agreements",
+        "Expert testimony and opinion work on zoning code interpretation and drafting",
+        "Public records requests for the application file, staff correspondence, and utility studies",
+    ],
+    faq=[
+        ("Can a township stop a data center in Ohio?",
+         "Often, yes, but the leverage is procedural and it expires. If the campus needs a "
+         "rezoning or a conditional use permit, the zoning commission and the trustees decide "
+         "it on a record, and that decision can be appealed to common pleas under R.C. Chapter "
+         "2506. A township zoning amendment can also be put to a referendum on petition of "
+         "eight percent of the township's electors within thirty days of adoption under R.C. "
+         "519.12(H). If the use is already permitted by right under the existing text, the "
+         "questions move to site plan compliance, nuisance, and whether the township should "
+         "amend its code before the next application arrives."),
+        ("Are data centers a permitted use under Ohio zoning codes?",
+         "Most codes never contemplated one. Applicants generally argue a data center fits an "
+         "existing industrial, warehouse, office, or public utility category. Whether that is "
+         "right is a question of code interpretation, and it is frequently the strongest "
+         "ground available: under a permissive code, a use that does not fit a listed category "
+         "is not allowed merely because no one thought to prohibit it."),
+        ("Can residents appeal a data center approval?",
+         "Residents who are directly affected, typically through proximity and a harm "
+         "different in kind from the general public's, generally have standing to appeal an "
+         "administrative zoning decision under R.C. Chapter 2506. Standing is decided early "
+         "and it is where these appeals most often fail, so it is worth building before the "
+         "hearing rather than after the decision."),
+        ("Can a data center rezoning be overturned by referendum?",
+         "A rezoning is a legislative act. In a township, R.C. 519.12(H) allows a referendum "
+         "on petition of eight percent of the electors within thirty days of adoption. In a "
+         "municipality, a rezoning ordinance is generally subject to referendum under Article "
+         "II, Section 1f of the Ohio Constitution and R.C. 731.29. The deadlines are short, "
+         "the signature and form requirements are technical, and both are strictly enforced."),
+        ("What can a zoning board actually consider?",
+         "More than applicants like to admit, and less than neighbors hope. A board applies "
+         "the standards in its own code: compatibility, traffic, utilities, screening, and the "
+         "like. It cannot refuse an application because the use is unpopular, and a record "
+         "built on that alone will not survive an appeal. The work is translating the real "
+         "objections, which are water, power, noise, and traffic, into the criteria the code "
+         "gives the board."),
+        ("Can a community adopt a data center moratorium?",
+         "Ohio municipalities and townships can adopt interim measures while a code amendment "
+         "is prepared, but a moratorium has to be genuinely temporary, tied to actual work on "
+         "the text, and in place before a complete application vests rights. Timing decides "
+         "whether it holds."),
+    ],
+)
 
 JURISDICTIONS = """Anderson Township|Boone County, KY|Butler County|City of Akron|City of Beavercreek|City of Bellevue, KY|City of Blue Ash|City of Canal Winchester|City of Centerville|City of Cincinnati|City of Cleveland Heights|City of Columbus|City of Fairborn|City of Fairfield|City of Florence, KY|City of Forest Park|City of Franklin|City of Ft. Wright, KY|City of Hamilton|Henry County|City of Kettering|City of Lebanon|City of Loveland|City of Madeira|City of Mason|City of McComb|City of Milford|City of Monroe|City of Montgomery|City of Norwood|City of Oxford|City of Piqua|City of Springboro|City of Springdale|City of Toledo|City of The Village of Indian Hill|City of Union, KY|City of Vandalia|City of West Chester|City of Westlake|City of Wyoming|Clermont County|Colerain Township|Deerfield Township|Fairfield Township|Goshen Township|Green Township|Hamilton County|Harrison Township|Kenton County, KY|Liberty Township|Miami Township|Pierce Township|Sycamore Township|Symmes Township|Village of Addyston|Village of Evendale|Village of Gates Mills|Village of Kirtland Hills|Village of Lockland|Village of South Lebanon|Village of Woodlawn|Warren County|Washington Township|West Chester Township""".split("|")
 

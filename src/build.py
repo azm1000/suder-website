@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """Generate the Suder, LLC static site into ../public.  Run: python3 src/build.py"""
-import os, re, html, shutil, datetime
+import os, re, html, shutil, datetime, json
 from pathlib import Path
 import sys
 sys.path.insert(0, os.path.dirname(__file__))
@@ -9,7 +9,7 @@ import landing_content as LC
 
 ROOT = Path(__file__).resolve().parent.parent
 PUB = ROOT / "public"
-V = "20260922d"  # cache-bust for css/js
+V = "20260922e"  # cache-bust for css/js
 
 def esc(s): return html.escape(s, quote=True)
 
@@ -54,6 +54,7 @@ def header(dark_hero=True):
   <a href="/team/">Team</a>
   <a href="/jurisdictions/">Jurisdictions</a>
   <a href="/zoning-letters/">Zoning letters &amp; opinions</a>
+  <a href="/data-centers/">Data centers</a>
   <a href="/contact/">Contact</a>
 </div>'''
 
@@ -69,7 +70,7 @@ def footer():
         <div style="margin-top:12px"><a href="tel:{FIRM["phone_tel"]}">{esc(FIRM["phone"])}</a><a href="mailto:{FIRM["email"]}">{esc(FIRM["email"])}</a></div>
       </div>
       <div><h4>Practice areas</h4>{pr}</div>
-      <div><h4>Firm</h4><a href="/results/">Results</a><a href="/opinions/">Published opinions</a><a href="/jurisdictions/">Jurisdictions</a><a href="/zoning-letters/">Zoning letters &amp; opinions</a><a href="/team/">Team</a><a href="/careers/">Careers</a><a href="/contact/">Contact</a></div>
+      <div><h4>Firm</h4><a href="/results/">Results</a><a href="/opinions/">Published opinions</a><a href="/jurisdictions/">Jurisdictions</a><a href="/zoning-letters/">Zoning letters &amp; opinions</a><a href="/data-centers/">Data centers</a><a href="/team/">Team</a><a href="/careers/">Careers</a><a href="/contact/">Contact</a></div>
       <div><h4>Recognition</h4><a href="/team/sean-suder/">Best Lawyers "Lawyer of the Year" 2026</a><a href="/team/sean-suder/">Chambers USA Band 1, every year since 2019</a><a href="/">Chambers Spotlight Firm 2025–2026</a><a href="{FIRM["zoneco"]}" rel="noopener" target="_blank">Sister firm: ZoneCo ↗</a></div>
     </div>
     <div class="bottom">
@@ -79,7 +80,7 @@ def footer():
   </div>
 </footer>'''
 
-def page(title, desc, body, path, dark_hero=True, canonical=None):
+def page(title, desc, body, path, dark_hero=True, canonical=None, head_extra=""):
     canon = FIRM["domain"] + (canonical or path)
     full_title = title if title.startswith("Suder") else f"{title} | Suder, LLC"
     return f'''<!doctype html>
@@ -95,7 +96,7 @@ def page(title, desc, body, path, dark_hero=True, canonical=None):
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,300;1,9..144,400&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="/assets/css/site.css?v={V}">
-</head>
+{head_extra}</head>
 <body>
 {header(dark_hero)}
 <main id="main">
@@ -266,11 +267,11 @@ def build_practices():
         results_html = ""
         if results:
             results_html = f'''<section class="dark"><div class="wrap">
-  <div class="split" style="align-items:end;margin-bottom:34px"><div><div class="eyebrow reveal">Results</div><h2 class="reveal">Representative matters.</h2></div><div class="reveal" data-delay="1"><span class="link" style="border-color:var(--brass-2)"><a href="/results/#{slug}">All results</a>{ARROW}</span></div></div>
+  <div class="split" style="align-items:end;margin-bottom:34px"><div><div class="eyebrow reveal">Results</div><h2 class="reveal">Representative matters.</h2></div><div class="reveal" data-delay="1"><span class="link" style="border-color:var(--brass-2)"><a href="/results/">All results</a>{ARROW}</span></div></div>
   {result_rows(results)}
 </div></section>'''
         others = f'''<section><div class="wrap"><div class="eyebrow reveal">Related practice areas</div><h2 class="reveal" style="max-width:16ch">Everything real property.</h2><div class="grid grid-3" style="margin-top:40px">{practice_cards(exclude=slug)}</div></div></section>'''
-        body = hero(esc(p["heading"]), p["subheading"], btn("/contact/", p["button"]) + btn("/results/#" + slug, "See results", "outline"),
+        body = hero(esc(p["heading"]), p["subheading"], btn("/contact/", p["button"]) + btn("/results/", "See results", "outline"),
                     img=img, tag=p["image_text"], short=True, eyebrow=LC.LICENSED, caption=cap)
         body += cred
         body += f'''<section><div class="wrap split">
@@ -284,9 +285,8 @@ def build_practices():
         write(f"/practice/{slug}/", page(name, desc, body, f"/practice/{slug}/"))
 
 def build_results():
-    chips = '<div class="chips"><button class="chip active" data-filter="all">All</button>' + "".join(f'<button class="chip" data-filter="{s}">{esc(n)}</button>' for s, n in PRACTICES) + '</div>'
     body = f'''<section class="page-head"><div class="wrap"><div class="eyebrow">Results</div><h1>We are proud of what we do, and how we do it.</h1><p class="lede">Representative matters and published decisions from across the firm. Filter by practice area.</p></div></section>
-<section style="padding-top:0"><div class="wrap">{chips}{result_rows(RESULTS)}
+<section style="padding-top:0"><div class="wrap">{result_rows(RESULTS)}
 <p class="muted" style="margin-top:30px;font-size:14px">Prior results do not guarantee a similar outcome. Client names are used only where the matter is a matter of public record.</p></div></section>''' + cta()
     write("/results/", page("Results & Case Studies", "Representative land use, zoning, litigation, and real estate transaction results from Suder, LLC.", body, "/results/", dark_hero=False))
 
@@ -324,6 +324,54 @@ def build_zoning_letters():
   </div>
 </div></section>''' + cta("Need a zoning letter for a closing?", "Send us the address and the deadline.")
     write("/zoning-letters/", page("Zoning Letters & Opinions", "Zoning verification letters and zoning opinion letters in Ohio, Kentucky, and Washington, D.C., from Suder, LLC.", body, "/zoning-letters/", dark_hero=False))
+
+def build_data_centers():
+    """Standalone page for the data center practice. Two jobs: say plainly what the firm
+    is doing about the Wilmington campus, and answer the questions people type into a
+    search box at 11pm after a rezoning sign goes up across the road. The FAQ is marked
+    up as FAQPage so those answers can surface directly."""
+    dc = DATA_CENTERS
+    case = "".join(f'<p{" class=lede" if i==0 else ""}>{esc(t)}</p>' for i, t in enumerate(dc["case_body"]))
+    why = "".join(
+        f'<div class="card reveal" data-delay="{i%3}"><div class="num">0{i+1}</div>'
+        f'<h3>{esc(h)}</h3><p>{esc(t)}</p></div>'
+        for i, (h, t) in enumerate(dc["why"]))
+    do = "".join(f'<li class="reveal" data-delay="{i%4}">{esc(b)}</li>' for i, b in enumerate(dc["do"]))
+    faq = "".join(f'<h3 style="font-size:23px;margin-top:1.7em">{esc(q)}</h3><p>{esc(a)}</p>'
+                  for q, a in dc["faq"])
+    ld = {"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [
+        {"@type": "Question", "name": q,
+         "acceptedAnswer": {"@type": "Answer", "text": a}} for q, a in dc["faq"]]}
+    head_extra = ('<script type="application/ld+json">'
+                  + json.dumps(ld, ensure_ascii=False).replace("</", "<\\/")
+                  + "</script>\n")
+
+    body = f'''<section class="page-head"><div class="wrap"><div class="eyebrow">{esc(dc["eyebrow"])}</div><h1>{esc(dc["h1"])}</h1><p class="lede">{esc(dc["lede"])}</p></div></section>
+<section class="dark" style="margin-top:20px"><div class="wrap split">
+  <div class="sticky"><div class="eyebrow reveal">Representative matter</div><h2 class="reveal">{esc(dc["case_title"])}</h2><div class="meta" style="margin-top:10px;color:var(--brass)">{esc(dc["case_meta"])}</div></div>
+  <div class="prose reveal">{case}
+  <p>{link("/results/#wilmington-data-center", "See the matter on our results page")}</p></div>
+</div></section>
+<section><div class="wrap">
+  <div class="eyebrow reveal">The issues</div><h2 class="reveal" style="max-width:18ch">{esc(dc["why_h"])}</h2>
+  <div class="grid grid-3" style="margin-top:40px">{why}</div>
+</div></section>
+<section style="padding-top:0"><div class="wrap split">
+  <div class="sticky"><div class="eyebrow reveal">What we do</div><h2 class="reveal">{esc(dc["do_h"])}</h2><p class="reveal" style="margin-top:14px;color:var(--ink-2);font-size:16px">This work sits across <a href="/practice/land-use-zoning/" style="border-bottom:1px solid var(--brass)">land use and zoning</a> and <a href="/practice/real-property-litigation/" style="border-bottom:1px solid var(--brass)">real property litigation and appeals</a>.</p></div>
+  <div><ul class="bullets">{do}</ul></div>
+</div></section>
+<section style="padding-top:0"><div class="wrap-narrow" style="max-width:860px">
+  <div class="eyebrow reveal">Questions we get</div><h2 class="reveal" style="margin-bottom:6px">Data centers and Ohio zoning law.</h2>
+  <div class="prose">{faq}</div>
+  <p class="muted" style="margin-top:34px;font-size:14px">General information, not legal advice, and no substitute for counsel on your own matter. Deadlines in these cases are short.</p>
+</div></section>''' + cta("A data center is coming to your township.",
+                          "Tell us where the application stands and what your code says. We will tell you plainly what is still open to you, and how long you have.")
+    write("/data-centers/", page(
+        "Data Center Zoning in Ohio",
+        "Ohio data center zoning lawyers. Suder, LLC represents communities, neighbors, and "
+        "property owners in data center rezonings, conditional use hearings, R.C. 2506 appeals, "
+        "moratoria, and referendums, including the fight over the proposed Wilmington data center.",
+        body, "/data-centers/", dark_hero=False, head_extra=head_extra))
 
 def build_team():
     body = f'''<section class="page-head"><div class="wrap"><div class="eyebrow">Attorneys &amp; professionals</div><h1>Lawyers and planners, under one roof.</h1><p class="lede">Every member of the team has spent a career on the built environment: in city hall, at large law firms, in planning departments, and on development sites.</p></div></section>
@@ -401,15 +449,15 @@ def build_infra():
     Referrer-Policy = "strict-origin-when-cross-origin"
 ''', encoding="utf-8")
     (PUB / "robots.txt").write_text(f"User-agent: *\nAllow: /\nSitemap: {FIRM['domain']}/sitemap.xml\n", encoding="utf-8")
-    urls = ["/", "/results/", "/opinions/", "/jurisdictions/", "/zoning-letters/", "/team/", "/contact/", "/careers/", "/terms/"] + [f"/practice/{s}/" for s, _ in PRACTICES] + [f"/team/{t['slug']}/" for t in TEAM]
+    urls = ["/", "/results/", "/opinions/", "/jurisdictions/", "/zoning-letters/", "/data-centers/", "/team/", "/contact/", "/careers/", "/terms/"] + [f"/practice/{s}/" for s, _ in PRACTICES] + [f"/team/{t['slug']}/" for t in TEAM]
     today = datetime.date.today().isoformat()
     sm = '<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n' + "".join(f"  <url><loc>{FIRM['domain']}{u}</loc><lastmod>{today}</lastmod></url>\n" for u in urls) + "</urlset>\n"
     (PUB / "sitemap.xml").write_text(sm, encoding="utf-8")
     (PUB / "assets/img/favicon.svg").write_text('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64"><rect width="64" height="64" rx="12" fill="#15243b"/><text x="32" y="45" text-anchor="middle" font-family="Georgia,serif" font-size="40" fill="#f5f2ec">S</text><rect x="14" y="50" width="36" height="3" fill="#b9924a"/></svg>', encoding="utf-8")
 
 if __name__ == "__main__":
-    for d in ["practice", "team", "results", "opinions", "jurisdictions", "zoning-letters", "contact", "thanks", "careers", "terms"]:
+    for d in ["practice", "team", "results", "opinions", "jurisdictions", "zoning-letters", "data-centers", "contact", "thanks", "careers", "terms"]:
         shutil.rmtree(PUB / d, ignore_errors=True)
-    build_home(); build_practices(); build_results(); build_opinions(); build_jurisdictions(); build_zoning_letters(); build_team(); build_contact(); build_misc(); build_infra()
+    build_home(); build_practices(); build_results(); build_opinions(); build_jurisdictions(); build_zoning_letters(); build_data_centers(); build_team(); build_contact(); build_misc(); build_infra()
     n = sum(1 for _ in PUB.rglob("*.html"))
     print("built", n, "pages")
