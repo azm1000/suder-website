@@ -9,7 +9,7 @@ import landing_content as LC
 
 ROOT = Path(__file__).resolve().parent.parent
 PUB = ROOT / "public"
-V = "20260922c"  # cache-bust for css/js
+V = "20260922d"  # cache-bust for css/js
 
 def esc(s): return html.escape(s, quote=True)
 
@@ -91,7 +91,7 @@ def page(title, desc, body, path, dark_hero=True, canonical=None):
 <meta name="description" content="{esc(desc)}">
 <link rel="canonical" href="{canon}">
 <meta property="og:title" content="{esc(full_title)}"><meta property="og:description" content="{esc(desc)}"><meta property="og:type" content="website"><meta property="og:url" content="{canon}"><meta property="og:image" content="{FIRM["domain"]}/assets/img/hero-skylines.jpg">
-<link rel="icon" href="/assets/img/favicon.svg" type="image/svg+xml">
+<link rel="icon" href="/assets/img/favicon-32.png?v={V}" sizes="32x32" type="image/png"><link rel="icon" href="/assets/img/favicon-16.png?v={V}" sizes="16x16" type="image/png"><link rel="apple-touch-icon" href="/assets/img/favicon-180.png?v={V}">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,300;1,9..144,400&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="/assets/css/site.css?v={V}">
