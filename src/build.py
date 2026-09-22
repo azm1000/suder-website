@@ -181,11 +181,10 @@ def awards_grid():
 def people_grid():
     out = ""
     for i, t in enumerate(TEAM):
-        # Bar admission is already carried by the role line and the page title, and at
-        # 20px in a five-wide grid "Esq." on four cards is noise. What distinguishes
-        # people here are the professional designations, so the card shows the suffix
-        # with Esq. dropped: AICP for Teresa, FAICP for Todd, LEED AP for Sean.
-        cred = ", ".join(x for x in (p.strip() for p in t["suffix"].split(",")) if x and x != "Esq.")
+        # Only the planning designations show here — see GRID_CREDENTIALS. Sean's
+        # LEED AP and everyone's Esq. live on their own bio page instead.
+        cred = ", ".join(x for x in (p.strip() for p in t["suffix"].split(","))
+                         if x in GRID_CREDENTIALS)
         # emitted even when empty: on phones the credential drops to its own line, and
         # a card without one still has to reserve it or the grid goes ragged
         cr = f'<i>{esc(cred)}</i>'

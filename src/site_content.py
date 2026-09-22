@@ -318,6 +318,12 @@ JURISDICTIONS = """Anderson Township|Boone County, KY|Butler County|City of Akro
 # the figure carries a plus. Derived, so adding an entry updates every page.
 JCOUNT = f"{len(JURISDICTIONS)}+"
 
+# Designations the team grid surfaces beside a name. Deliberately narrow: the page
+# is "Lawyers and planners, under one roof," so the planning credentials are what
+# distinguish people there. Bar admission is carried by the role line, and the rest
+# of each person's letters belong on their own page, not on a 214px card.
+GRID_CREDENTIALS = ("FAICP", "AICP")
+
 AWARDS = [
     # url="" renders the badge as plain artwork; set one and it becomes a link to the listing
     dict(img="badge-best-lawyers-loty-2026.png", alt="Best Lawyers Lawyer of the Year 2026, Sean S. Suder, Land Use and Zoning Law, Cincinnati",
