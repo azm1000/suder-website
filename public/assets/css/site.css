@@ -31,7 +31,9 @@ section{padding:clamp(64px,9vw,128px) 0}
 /* over hero photography the grey eyebrow disappears; white plus a soft shadow holds on any slide */
 .hero .eyebrow{color:rgba(255,255,255,.93);text-shadow:0 1px 14px rgba(14,25,43,.75)}
 .lede{font-size:clamp(18px,1.6vw,22px);line-height:1.55;color:var(--ink-2);max-width:60ch}
-.dark .lede{color:rgba(255,255,255,.82)}
+/* .cta paints its own navy without the .dark class, so a lede inside it kept the
+   light-ground ink and rendered near-black on navy */
+.dark .lede,.cta .lede{color:rgba(255,255,255,.82)}
 .muted{color:var(--stone)}
 .dark{background:var(--navy);color:var(--white)}
 .dark-ink{background:var(--ink);color:var(--white)}
@@ -218,6 +220,7 @@ body.menu-open{overflow:hidden}
 @media (max-width:860px){.cta .wrap{grid-template-columns:1fr}}
 .cta h2{margin-bottom:10px}
 .cta .contact-lines{font-size:16px;line-height:1.8;color:rgba(255,255,255,.85)}
+.cta .muted{color:rgba(255,255,255,.62)}   /* --stone is a light-ground grey; on navy it goes muddy */
 .cta .contact-lines a:hover{color:var(--brass-2)}
 
 /* slot-machine tagline: practice areas reel past, settling on the firm line */
