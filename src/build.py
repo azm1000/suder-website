@@ -9,7 +9,7 @@ import landing_content as LC
 
 ROOT = Path(__file__).resolve().parent.parent
 PUB = ROOT / "public"
-V = "20260922f"  # cache-bust for css/js
+V = "20260922g"  # cache-bust for css/js
 
 def esc(s): return html.escape(s, quote=True)
 
@@ -181,7 +181,16 @@ def awards_grid():
 def people_grid():
     out = ""
     for i, t in enumerate(TEAM):
-        out += f'<a class="person reveal" data-delay="{i%4}" href="/team/{t["slug"]}/"><div class="ph"><img src="/assets/img/{t["img"]}-portrait.jpg" alt="{esc(t["name"])}" loading="lazy" width="900" height="1125"></div><b>{esc(t["name"])}</b><span>{esc(t["role"])}</span></a>'
+        # Bar admission is already carried by the role line and the page title, and at
+        # 20px in a five-wide grid "Esq." on four cards is noise. What distinguishes
+        # people here are the professional designations, so the card shows the suffix
+        # with Esq. dropped: AICP for Teresa, FAICP for Todd, LEED AP for Sean.
+        cred = ", ".join(x for x in (p.strip() for p in t["suffix"].split(",")) if x and x != "Esq.")
+        # emitted even when empty: on phones the credential drops to its own line, and
+        # a card without one still has to reserve it or the grid goes ragged
+        cr = f'<i>{esc(cred)}</i>'
+
+        out += f'<a class="person reveal" data-delay="{i%4}" href="/team/{t["slug"]}/"><div class="ph"><img src="/assets/img/{t["img"]}-portrait.jpg" alt="{esc(t["name"])}" loading="lazy" width="900" height="1125"></div><b>{esc(t["name"])}{cr}</b><span>{esc(t["role"])}</span></a>'
     return f'<div class="people">{out}</div>'
 
 def marquee():
