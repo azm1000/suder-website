@@ -9,7 +9,7 @@ import landing_content as LC
 
 ROOT = Path(__file__).resolve().parent.parent
 PUB = ROOT / "public"
-V = "20260924e"  # cache-bust for css/js
+V = "20260924f"  # cache-bust for css/js
 
 def esc(s): return html.escape(s, quote=True)
 
@@ -122,9 +122,36 @@ def write(path, content):
     return path
 
 # ------------------------------------------------------------------ pieces
+# Runs inline, during parse: it has to beat both the first paint and the browser's
+# decision about which image to fetch first. Every slide ships loading="lazy" with
+# no priority hint, so nothing is prefetched until this promotes the one it picked.
+# That is what lets the opening image be random without a lazy-loaded file landing
+# in front of the first paint. No-JS still works: the first slide carries .active
+# in the markup and simply stays put.
+SLIDE_PICKER = """  <script>(function(){
+    var h=document.currentScript.closest('.hero'), b=h&&h.querySelector('.hero-slides');
+    if(!b) return;
+    var s=[].slice.call(b.children), n=s.length; if(n<2) return;
+    for(var k=n-1;k>0;k--){ var r=Math.floor(Math.random()*(k+1)), t=s[k]; s[k]=s[r]; s[r]=t; }
+    // Start the winner downloading before touching the DOM. Flipping loading to
+    // eager queues behind layout; a preload link does not, and it is what the
+    // scanner would have issued had the choice been knowable at parse time.
+    var pre=document.createElement('link');
+    pre.rel='preload'; pre.as='image'; pre.href=s[0].src; pre.fetchPriority='high';
+    document.head.appendChild(pre);
+    s.forEach(function(x,j){
+      b.appendChild(x);
+      x.classList.toggle('active', j===0);
+      if(j===0){ x.loading='eager'; x.setAttribute('fetchpriority','high'); }
+      else { x.removeAttribute('fetchpriority'); }
+    });
+    var c=h.querySelector('.hero-caption');
+    if(c) c.textContent=s[0].getAttribute('data-caption')||'';
+  })();</script>"""
+
 def hero(h1, lede, actions, img=None, tag=None, short=False, eyebrow=None, caption=None, slides=None):
     if slides:
-        imgs = "".join(f'<img class="slide{" active" if i==0 else ""}" src="/assets/img/{s}" alt="{esc(c)}" data-caption="{esc(c)}"{" fetchpriority=high" if i==0 else " loading=lazy"}>' for i, (s, c) in enumerate(slides))
+        imgs = "".join(f'<img class="slide{" active" if i==0 else ""}" src="/assets/img/{s}" alt="{esc(c)}" data-caption="{esc(c)}" loading="lazy" decoding="async">' for i, (s, c) in enumerate(slides))
         media = f'<div class="hero-media hero-slides" data-interval="6500">{imgs}</div><div class="hero-shade"></div>'
         caption = slides[0][1]
     else:
@@ -143,6 +170,7 @@ def hero(h1, lede, actions, img=None, tag=None, short=False, eyebrow=None, capti
   {tg}
   <div class="hero-scroll">Scroll</div>
   {f'<div class="hero-caption">{esc(caption)}</div>' if caption else ''}
+{SLIDE_PICKER if slides else ""}
 </section>'''
 
 def stats_band():
@@ -212,10 +240,12 @@ def hero_spin_h1():
     """The home h1, reeling. Same contract as spinner(): the settled tagline is the
     real h1 text, so the headline reads normally with no JS, to a crawler, or under
     reduced motion. data-spin-min keeps the reel off narrow screens, where a display-
-    size practice area cannot fit on one line."""
+    size practice area cannot fit on one line. 460 because the longest label is
+    10em wide and the h1 holds at 40px on small screens, so it needs a 400px box,
+    and the hero's gutters take 40px of the viewport."""
     return ('<span class="spin-pre">Counsel for</span>'
             f'<span class="spin-word" data-spin="{esc("|".join(HERO_SPIN_WORDS))}"'
-            ' data-spin-delay="750" data-spin-min="430">the Built Environment.</span>')
+            ' data-spin-delay="750" data-spin-min="460">the Built Environment.</span>')
 
 def cta(h="Let's talk about your property.", sub="Tell us what you are trying to build, buy, keep, or defend. We will tell you plainly how we can help."):
     return f'''<section class="cta"><div class="wrap">

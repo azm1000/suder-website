@@ -40,9 +40,8 @@ HERO_SPIN_WORDS = [
     "Eminent Domain",
     "Historic Preservation",
     "Real Estate Tax",
-    "Litigation",
-    "Transactions",
-    "Local Counsel",
+    "Real Estate Litigation",
+    "Real Estate Transactions",
 ]
 # map landing_content page names -> slug
 LANDING_TO_SLUG = {
