@@ -66,6 +66,16 @@
   // Hero slideshow (crossfade + slow pan)
   d.querySelectorAll('.hero-slides').forEach(function(box){
     var slides=[].slice.call(box.querySelectorAll('img')); if(slides.length<2) return;
+    // Shuffle everything after the opener so the run differs on each visit. The
+    // first slide stays put on purpose: it is the only one fetched eagerly
+    // (fetchpriority=high, the rest lazy), so promoting a different image into
+    // that spot would put a lazy-loaded file in front of the first paint.
+    if(slides.length>2){
+      var rest=slides.slice(1);
+      for(var k=rest.length-1;k>0;k--){ var r=Math.floor(Math.random()*(k+1)), tmp=rest[k]; rest[k]=rest[r]; rest[r]=tmp; }
+      rest.forEach(function(s){ box.appendChild(s); });   // reorders in place
+      slides=[slides[0]].concat(rest);
+    }
     var hero=box.closest('.hero'), cap=hero&&hero.querySelector('.hero-caption'), i=0, timer=null, iv=parseInt(box.dataset.interval,10)||6500;
     var dots=d.createElement('div'); dots.className='hero-dots';
     slides.forEach(function(s,n){ var b=d.createElement('button'); b.type='button'; b.setAttribute('aria-label','Show image '+(n+1)); b.addEventListener('click',function(){ go(n); restart(); }); dots.appendChild(b); });
