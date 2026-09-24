@@ -30,9 +30,8 @@ SPIN_WORDS = [
     "Eminent Domain",
     "Historic Preservation",
     "Real Estate Taxation",
-    "Real Property Litigation",
+    "Real Estate Litigation",
     "Real Estate Transactions",
-    "Local Counsel",
 ]
 # shorter labels for the hero reel, which sets at display size and must not wrap
 HERO_SPIN_WORDS = [
