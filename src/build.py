@@ -238,7 +238,7 @@ def build_home():
     body += f'''<section><div class="wrap split">
   <div class="sticky"><div class="eyebrow reveal">Why Suder</div><h2 class="reveal">Lawyers who have sat on every side of the table.</h2></div>
   <div>
-    <p class="lede reveal">Our founder spent nearly four years as the City of Cincinnati's Chief Counsel for Land Use and Planning, wrote its land development code, and now rewrites zoning codes for cities across the country. Our transactional lawyers were partners at global and national firms. Our eminent domain counsel is a certified planner who has represented more than 100 property owners.</p>
+    <p class="lede reveal">Our founder spent nearly four years as the City of Cincinnati's Chief Counsel for Land Use and Planning, wrote its land development code, and now rewrites zoning codes for cities across the country. Our transactional lawyers were partners at global and national firms. Our eminent domain counsel is a certified planner and former civil engineering project manager.</p>
     <p class="reveal" data-delay="1">That mix of government, big-firm, and planning experience is why Chambers USA has ranked Sean Suder in Band 1 for Ohio zoning and land use every year since 2019, why Best Lawyers named him Cincinnati's Land Use and Zoning "Lawyer of the Year" for 2026, and why Am Law firms call Suder when their clients' matters land in Ohio.</p>
     <div class="reveal" data-delay="2" style="display:flex;gap:28px;flex-wrap:wrap;margin-top:8px">{link("/team/", "Meet the team")}{link("/results/", "See our results")}</div>
   </div>

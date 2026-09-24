@@ -59,7 +59,7 @@ PRACTICE_BLURBS = {
     "land-use-zoning": "Rezonings, variances, PUDs, appeals, and zoning opinions. At Suder, zoning is not another practice area; it is the practice area.",
     "real-property-litigation": "Trial and appellate counsel in real property disputes, with published decisions in Ohio's courts of appeals.",
     "real-estate-transactions": "Acquisitions, leasing, joint ventures, financings, and condominium structures, handled by former big-firm lawyers.",
-    "eminent-domain": "More than 100 property owners represented in appropriation, inverse condemnation, and regulatory takings matters.",
+    "eminent-domain": "Appropriation, inverse condemnation, and regulatory takings, from the first offer through trial. Counsel for the landowner, not the agency.",
     "historic-preservation": "Certificates of appropriateness, landmark designations, and the fight to keep the buildings worth keeping.",
     "real-estate-taxation": "Valuation challenges before boards of revision and the Board of Tax Appeals, and abatements that make projects pencil.",
     "local-counsel": "Ohio and Northern Kentucky local counsel for national firms, plus Texas and New York transactional counsel.",
@@ -337,7 +337,7 @@ AWARDS = [
 CREDENTIALS = [
     (JCOUNT, "jurisdictions across Ohio and Northern Kentucky where we have handled zoning matters"),
     ("Band 1", "Chambers USA ranking for Sean Suder in Ohio Real Estate: Zoning/Land Use, every year since 2019"),
-    ("100+", "property owners represented in eminent domain and takings matters"),
+    (str(len(OPINIONS)), "published Ohio appellate decisions in real property matters, every one of them linked on our opinions page"),
     ("5", "states of licensure: Ohio, Kentucky, Texas, New York, and Washington, D.C."),
 ]
 
@@ -420,7 +420,7 @@ TEAM = [
                  "Urban design and community planner on award-winning projects at a national architecture and engineering firm (1987–1991)",
              ]),
              ("Knowledge", [
-                 "Successfully represented over 100 clients in eminent domain and takings matters",
+                 "Represented property owners in eminent domain and takings matters, from the initial offer through trial",
                  "Represented numerous clients in land use litigation, permitting, easements, variances, public hearings, and community engagement",
                  "As chairperson of a county Environmental Affairs Board, contributed to drafting a Maryland county's first forest conservation ordinance; committee member for stormwater best-management practices in the State of Maryland",
              ]),

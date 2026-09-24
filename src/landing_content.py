@@ -268,13 +268,13 @@ PAGES = [
         heading="Full Compensation When the Government Takes",
         subheading=(
             "The government arrives with its own appraisers and lawyers; you should have "
-            "yours. Suder has represented more than 100 property owners in eminent domain "
-            "and takings matters, and we know how to challenge a taking, contest a low "
+            "yours. Suder represents property owners in eminent domain and takings "
+            "matters, and we know how to challenge a taking, contest a low "
             "appraisal, and recover what your property is actually worth."
         ),
         button="Protect Your Property",
         description=(
-            "Teresa Bamberger has represented more than 100 clients in eminent domain and "
+            "Teresa Bamberger has represented property owners in eminent domain and "
             "takings matters since 2011, and her earlier career as a certified planner and "
             "civil engineering project manager means she can read the plans, understand "
             "the damage to what is left of your property, and prove its real value. Our "
@@ -293,7 +293,7 @@ PAGES = [
             "Highway, utility, pipeline, and redevelopment takings",
         ],
         results=[
-            ("More than 100 owners represented in eminent domain and takings matters",
+            ("Eminent domain and takings representation",
              FLAG + "Teresa Bamberger's track record since 2011. Sean/Teresa to pick two "
              "or three specific appropriations (for example, a highway widening where the "
              "award materially exceeded the initial offer) that can be described "
