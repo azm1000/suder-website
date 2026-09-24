@@ -81,6 +81,10 @@ HOME_SLIDES = [
     ("hero-city-hall.jpg", "Cincinnati City Hall: where our founder served as Chief Counsel for Land Use and Planning"),
     ("hero-courthouse.jpg", "Hamilton County Courthouse: home of our published appellate wins"),
     ("hero-vine-street.jpg", "Vine Street, Over-the-Rhine: our neighborhood"),
+    # Sean's own photo, 1500x682 rather than the 1920x872 the others are. Not
+    # resampled up to fit — honest pixels, sharp to about 1500px of viewport and
+    # soft beyond. Swap in a full-resolution original if one turns up.
+    ("hero-columbus.jpg", "Goodale Park, Columbus"),
 ]
 
 # ---------------------------------------------------------------- results
