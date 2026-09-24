@@ -33,15 +33,12 @@ SPIN_WORDS = [
     "Real Estate Litigation",
     "Real Estate Transactions",
 ]
-# shorter labels for the hero reel, which sets at display size and must not wrap
-HERO_SPIN_WORDS = [
-    "Zoning",
-    "Eminent Domain",
-    "Historic Preservation",
-    "Real Estate Tax",
-    "Real Estate Litigation",
-    "Real Estate Transactions",
-]
+# The hero reel shows the same list. The two were separate only because the hero
+# sets at display size and once needed short forms to fit narrow screens; now that
+# "Real Estate Transactions" sets the width either way, the short labels bought
+# nothing. Kept as its own name so build.py still reads clearly, but one source,
+# so the two reels cannot drift apart again.
+HERO_SPIN_WORDS = SPIN_WORDS
 # map landing_content page names -> slug
 LANDING_TO_SLUG = {
     "Land Use & Zoning Page": "land-use-zoning",
