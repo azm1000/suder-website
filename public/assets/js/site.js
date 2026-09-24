@@ -106,7 +106,7 @@
   // DWELL. That rest is the only thing that makes the words readable — a reel that
   // never pauses can be slowed forever and still not be read. The last step runs
   // longer and overshoots, so it snaps into the detent like a real reel.
-  var SLIDE=140, DWELL=360, BACK=.9, C3=BACK+1, BLUR_K=.09, BLUR_MAX=.55;
+  var SLIDE=160, DWELL=450, BACK=.9, C3=BACK+1, BLUR_K=.09, BLUR_MAX=.55;
   var REARM=4000;                 // scroll away and back after this and it rolls again
   var REPEAT=15000;               // and, sitting still, it rolls again on its own
   function spin(o){
