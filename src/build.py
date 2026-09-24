@@ -9,9 +9,16 @@ import landing_content as LC
 
 ROOT = Path(__file__).resolve().parent.parent
 PUB = ROOT / "public"
-V = "20260924c"  # cache-bust for css/js
+V = "20260924d"  # cache-bust for css/js
 
 def esc(s): return html.escape(s, quote=True)
+
+def emph(s):
+    """Escape first, then let *asterisks* become <em>. Content files stay plain
+    text — nothing in them can inject markup — but a word can still be set in the
+    display italic the stylesheet gives <em>. Only for on-page copy: asterisks in
+    a string that also feeds a meta description would show up literally there."""
+    return re.sub(r"\*([^*\n]+)\*", r"<em>\1</em>", esc(s))
 
 ARROW = '<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M2 8h11M9 3l5 5-5 5"/></svg>'
 CHEV = '<svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M2 4l4 4 4-4"/></svg>'
@@ -130,7 +137,7 @@ def hero(h1, lede, actions, img=None, tag=None, short=False, eyebrow=None, capti
   <div class="hero-inner">
     {eb}
     <h1 class="{h1_cls}">{h1}</h1>
-    <p class="lede reveal" data-delay="1">{esc(lede)}</p>
+    <p class="lede reveal" data-delay="1">{emph(lede)}</p>
     <div class="hero-actions reveal" data-delay="2">{actions}</div>
   </div>
   {tg}
@@ -223,7 +230,7 @@ def build_home():
     featured = [r for r in RESULTS if r.get("featured")]
     body = hero(
         hero_spin_h1(),
-        "Ohio's land use and zoning counsel, with a commercial real estate practice built by former big-firm lawyers. At Suder, zoning is not just another practice area. It is the practice area.",
+        "Ohio's land use and zoning counsel, with a commercial real estate practice built by former big-firm lawyers. At Suder, zoning is not just another practice area. It is *the* practice area.",
         btn("/contact/", "Get in touch") + btn("/practice/land-use-zoning/", "Explore our work", "outline"),
         slides=HOME_SLIDES, tag="Serving all of Ohio and Northern Kentucky",
         eyebrow="Land use · Real estate · Litigation")
