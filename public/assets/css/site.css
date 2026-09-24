@@ -92,9 +92,19 @@ body.menu-open{overflow:hidden}
 .hero-media{position:absolute;inset:0;z-index:-2}
 .hero-media img{width:100%;height:100%;object-fit:cover;transform:scale(1.06);animation:heroZoom 12s var(--ease) forwards}
 @keyframes heroZoom{to{transform:scale(1)}}
-.hero-slides img{position:absolute;inset:0;opacity:0;animation:none;transition:opacity 1.8s var(--ease);will-change:opacity,transform}
-.hero-slides img.active{opacity:1;animation:kenburns 9s linear forwards}
-.hero-slides img:nth-child(even).active{animation-name:kenburns2}
+/* Crossfade with no dip: the outgoing slide (.prev) stays fully opaque underneath
+   while the incoming one fades in on top of it. Fading both at once let the navy
+   ground show through at the midpoint, which is half of what read as a jump. */
+.hero-slides img{position:absolute;inset:0;opacity:0;z-index:0;animation:none;transition:opacity 1.8s var(--ease);will-change:opacity,transform}
+.hero-slides img.prev{opacity:1;z-index:1;transition:none}
+.hero-slides img.active{opacity:1;z-index:2}
+/* The pan stays applied through the fade-out. Previously it hung off .active alone,
+   so dropping that class at the 6.5s handoff tore the animation off an image that
+   was still visible for another 1.8s, snapping it from 72% of its travel back to
+   the base transform. 'both' also puts the incoming slide on its first keyframe
+   before it is visible, instead of jumping there as it fades in. */
+.hero-slides img.active,.hero-slides img.prev{animation:kenburns 9s linear both}
+.hero-slides img:nth-child(even).active,.hero-slides img:nth-child(even).prev{animation-name:kenburns2}
 @keyframes kenburns{from{transform:scale(1.02) translate3d(0,0,0)}to{transform:scale(1.12) translate3d(-1.5%,-1%,0)}}
 @keyframes kenburns2{from{transform:scale(1.12) translate3d(1.5%,1%,0)}to{transform:scale(1.02) translate3d(0,0,0)}}
 .hero-caption{transition:opacity .6s}
@@ -102,7 +112,11 @@ body.menu-open{overflow:hidden}
 .hero-dots button{width:26px;height:2px;border:0;padding:0;background:rgba(255,255,255,.35);cursor:pointer;transition:background .3s}
 .hero-dots button.active{background:var(--brass-2)}
 @media (max-width:980px){.hero-dots{display:none}}
-.hero-shade{position:absolute;inset:0;z-index:-1;background:linear-gradient(180deg,rgba(14,25,43,.55) 0%,rgba(14,25,43,.25) 40%,rgba(14,25,43,.9) 100%)}
+/* Shaped to the hero text band, not to the frame. Measured against all ten
+   slides: the eyebrow sits at 31%, the h1 spans 35-53%, the lede 55-66%, so the
+   old ramp put its lightest point (25% at 40%) directly behind the headline. The
+   top stays at .55 so the nav reads as before. */
+.hero-shade{position:absolute;inset:0;z-index:-1;background:linear-gradient(180deg,rgba(14,25,43,.55) 0%,rgba(14,25,43,.38) 20%,rgba(14,25,43,.70) 34%,rgba(14,25,43,.82) 60%,rgba(14,25,43,.92) 100%)}
 .hero-pattern{position:absolute;inset:0;z-index:-1;background-color:var(--navy-2);background-image:linear-gradient(rgba(255,255,255,.06) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.06) 1px,transparent 1px);background-size:64px 64px;mask-image:radial-gradient(ellipse at 70% 40%,#000 0%,transparent 70%);-webkit-mask-image:radial-gradient(ellipse at 70% 40%,#000 0%,transparent 70%)}
 .hero-pattern::after{content:"";position:absolute;inset:0;background:radial-gradient(ellipse at 75% 35%,rgba(185,146,74,.28),transparent 55%)}
 .hero-inner{position:relative;padding:150px var(--gutter) clamp(56px,7vw,96px);max-width:var(--max);margin:0 auto;width:100%}
