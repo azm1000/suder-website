@@ -360,6 +360,10 @@ TEAM = [
                  "Frequent speaker on land use and zoning at national, regional, and local conferences",
                  "Creator and host of Zonecasts; member, APA Law & Planning Digest Advisory Board",
              ]),
+             ("Writing", [
+                 ("All Zoning Is New York City Zoning: How a Custom-Tailored Solution for Manhattan Has Shaped Communities Across America for a Century (2026, PDF)",
+                  "/assets/docs/all-zoning-is-new-york-city-zoning.pdf"),
+             ]),
              ("Education", [
                  "J.D., University of Virginia School of Law (2004)",
                  "Bachelor of Urban and Environmental Planning, University of Virginia School of Architecture (2000), with honors",

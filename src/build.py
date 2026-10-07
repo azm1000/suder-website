@@ -424,7 +424,10 @@ def build_team():
     write("/team/", page("Team", "The attorneys and professionals of Suder, LLC: Sean Suder, J.P. Burleigh, Teresa Bamberger, Josh Bernstein, and Todd Kinskey.", body, "/team/", dark_hero=False))
     for t in TEAM:
         paras = "".join(f'<p class="reveal">{esc(x)}</p>' for x in t["bio"])
-        facts = "".join(f'<h3>{esc(h)}</h3><ul>' + "".join(f"<li>{esc(i)}</li>" for i in items) + "</ul>" for h, items in t["sections"])
+        # An item may be (text, url) to render as a link, e.g. a published paper.
+        li = lambda i: (f'<li><a href="{i[1]}" style="border-bottom:1px solid var(--brass)">{esc(i[0])}</a></li>'
+                        if isinstance(i, tuple) else f"<li>{esc(i)}</li>")
+        facts = "".join(f'<h3>{esc(h)}</h3><ul>' + "".join(li(i) for i in items) + "</ul>" for h, items in t["sections"])
         mail = t["email"]
         # The firm tagline is a claim about practising law, so only the admitted
         # lawyers close with it. Todd Kinskey is a city planner, and the line read as
