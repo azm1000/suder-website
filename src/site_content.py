@@ -343,6 +343,12 @@ CREDENTIALS = [
 TEAM = [
     dict(slug="sean-suder", first="Sean", name="Sean S. Suder", suffix="Esq., LEED AP", role="Managing Member / Founder",
          email="sean@ssuder.com", phones="513.694.7501 (d) · 513.235.3470 (c)", img="sean",
+         # Homepage team panel. Every line here restates a fact from this entry's
+         # bio or sections — keep them in step if either changes.
+         card=dict(pos="50% 22%", quote="Lawyer. City planner. Counsel for the Built Environment.",
+                   facts=[("Band 1", "Chambers USA, Ohio Real Estate: Zoning/Land Use, every year since 2019"),
+                          ("2026", "Best Lawyers \"Lawyer of the Year,\" Land Use and Zoning Law, Cincinnati"),
+                          ("Former", "Chief Counsel for Land Use and Planning, City of Cincinnati")]),
          intro="Sean has devoted his entire adult life to working in service to those who make, work with, manage, and contribute to the built environment.",
          bio=[
              "Sean earned an urban planning degree from architecture school, worked in city planning and construction management before law school, practiced in a large commercial real estate and land use practice after law school, served nearly four years as a large city government's chief land use attorney, became a partner in top commercial real estate and land use practices in mid-size and large law firms, and has founded and led zoning consulting firms with a national reach.",
@@ -378,6 +384,10 @@ TEAM = [
          ]),
     dict(slug="jp-burleigh", first="J.P.", name="J.P. Burleigh", suffix="Esq.", role="Member",
          email="jp@ssuder.com", phones="513.694.7502 (d) · 513.404.5776 (c)", img="jp",
+         card=dict(pos="50% 22%", quote="A practice devoted exclusively to real property: land and the things built on it.",
+                   facts=[("Counsel", "to ZoneCo on zoning code rewrites for local governments nationwide"),
+                          ("Mariemont", "Planning Commissioner for the Village of Mariemont, Ohio"),
+                          ("OTR", "emergency court orders that stopped the demolition of a historic church bell tower")]),
          intro="J.P.'s legal practice is devoted exclusively to real property: land and the things built on it.",
          bio=[
              "J.P.'s fascination with property began in an unlikely place. An avid fisherman, he brings a rod with him almost anywhere he goes. While living (and fishing) in Scotland for a semester during college, he was surprised to learn that land and water rights are treated very differently there than in the United States. Everyone in Scotland enjoys a \"right to roam\" across the countryside, even through private land, but all rivers and streams are privately owned, so fishing licenses are bought from individual landowners rather than from the state. The experience opened his eyes to how property law shapes the ways we all use, enjoy, and interact with the world around us.",
@@ -406,6 +416,10 @@ TEAM = [
          ]),
     dict(slug="teresa-bamberger", first="Teresa", name="Teresa Bamberger", suffix="Esq., AICP", role="Of Counsel",
          email="teresa@ssuder.com", phones="513.694.7500 (o) · 513.587.9242 (c)", img="teresa",
+         card=dict(pos="50% 22%", quote="Architect, town planner, civil engineering project manager, and land use lawyer.",
+                   facts=[("Since 2011", "land use, zoning, real estate, and eminent domain attorney"),
+                          ("Former", "Town Planner who rewrote a town's comprehensive plan and zoning code"),
+                          ("AICP", "certified planner and licensed Ohio attorney")]),
          intro="Teresa's path to land use law began in architecture school, where she developed a passion for community planning and urban design.",
          bio=[
              "Early in her career Teresa was an urban planner, designing large multi-use projects, community plans, and architectural guidelines. She then served as Town Planner for a small, rapidly growing community, where she engaged the community in completely rewriting the Town's Comprehensive Plan and Zoning Code. Later, as a planner and civil engineering project manager, she designed and managed large site development projects from inception through construction.",
@@ -435,6 +449,10 @@ TEAM = [
          ]),
     dict(slug="josh-bernstein", first="Josh", name="Josh Bernstein", suffix="Esq.", role="Of Counsel",
          email="josh@ssuder.com", phones="513.694.7500 (o) · 512.921.3269 (c)", img="josh",
+         card=dict(pos="50% 22%", quote="Two decades in Austin advising developers, investors, and operators through the deals that shaped it.",
+                   facts=[("20+ years", "real estate and corporate practice in Austin, Texas"),
+                          ("Former", "Partner, Norton Rose Fulbright and Greenberg Traurig"),
+                          ("TX · NY", "licensed attorney; Ohio application in progress")]),
          intro="Josh is a Cincinnati native and real estate and corporate attorney who spent more than two decades in Austin, Texas, advising developers, investors, and operators through the deals that shaped it.",
          bio=[
              "Josh began his career as a mergers and acquisitions and securities associate at an elite New York firm before returning to Austin, where he attended law school at the University of Texas, joining Armbrust & Brown, Austin's go-to firm for land use and development work. There he worked on formative projects that helped define the city's transformation into a thriving metropolis and gained a deep understanding of \"dirt\" real estate law: all of the pieces and moving parts that go into taking a project from raw land to a finished, financed, and occupied development.",
@@ -458,6 +476,10 @@ TEAM = [
          ]),
     dict(slug="todd-kinskey", first="Todd", name="Todd Kinskey", suffix="FAICP", role="City Planner (non-attorney)",
          email="tkinskey@thezoneco.com", phones="513.497.0500 (d)", img="todd",
+         card=dict(pos="50% 22%", quote="More than three decades of local government planning, zoning, subdivision, and housing policy.",
+                   facts=[("30+ years", "in local government planning"),
+                          ("FAICP", "AICP College of Fellows, Class of 2020"),
+                          ("Former", "Director of Planning, Neighborhoods & Development, City of Dayton")]),
          intro="Todd brings more than three decades of local government planning, zoning, subdivision, housing policy, and project management experience to the firm's clients.",
          bio=[
              "Todd Kinskey, FAICP, is the immediate past Director of the Department of Planning, Neighborhoods & Development for the City of Dayton, Ohio, and the former Hamilton County, Ohio Director of Planning + Development. He has led numerous code update and rewrite projects for complex and diverse built environments during his 30-plus years in public service.",

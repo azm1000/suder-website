@@ -152,6 +152,26 @@
   // tab is hidden, where rAF is paused and the roll would stall mid-word.
   if(reels.length) setInterval(function(){ if(!d.hidden) spinCheck(); }, 1000);
 
+  // Homepage team panels: cycle one open every 6s while in view (wide screens only).
+  // Any hover, click or keyboard focus hands control to the reader for good.
+  d.querySelectorAll('[data-crew]').forEach(function(crew){
+    var mates=[].slice.call(crew.querySelectorAll('.mate')), cur=0, timer=null, stopped=false, hoverT=null;
+    var wide=w.matchMedia('(min-width:1101px)');
+    function open(i){ cur=i; mates.forEach(function(m,k){ m.classList.toggle('is-on',k===i); m.querySelector('.mate-tab').setAttribute('aria-expanded',k===i?'true':'false'); }); }
+    function stop(){ stopped=true; clearInterval(timer); timer=null; }
+    mates.forEach(function(m,i){
+      m.querySelector('.mate-tab').addEventListener('click',function(){ stop(); open(i); });
+      m.addEventListener('mouseenter',function(){ if(!wide.matches) return; stop(); clearTimeout(hoverT); hoverT=setTimeout(function(){ open(i); },90); });
+      m.addEventListener('mouseleave',function(){ clearTimeout(hoverT); });
+    });
+    crew.addEventListener('focusin',stop);
+    if(reduce || !('IntersectionObserver' in w)) return;
+    new IntersectionObserver(function(es){ es.forEach(function(e){
+      if(e.isIntersecting && !stopped && !timer && wide.matches) timer=setInterval(function(){ if(!d.hidden) open((cur+1)%mates.length); },6000);
+      else if(!e.isIntersecting && timer){ clearInterval(timer); timer=null; }
+    }); },{threshold:.5}).observe(crew);
+  });
+
   // Current year
   d.querySelectorAll('[data-year]').forEach(function(el){ el.textContent=new Date().getFullYear(); });
 })();

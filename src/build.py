@@ -9,7 +9,7 @@ import landing_content as LC
 
 ROOT = Path(__file__).resolve().parent.parent
 PUB = ROOT / "public"
-V = "20260924f"  # cache-bust for css/js
+V = "20261030a"  # cache-bust for css/js
 
 def esc(s): return html.escape(s, quote=True)
 
@@ -227,6 +227,28 @@ def people_grid():
         out += f'<a class="person reveal" data-delay="{i%4}" href="/team/{t["slug"]}/"><div class="ph"><img src="/assets/img/{t["img"]}-portrait.jpg" alt="{esc(t["name"])}" loading="lazy" width="900" height="1125"></div><b>{esc(t["name"])}{cr}</b><span>{esc(t["role"])}</span></a>'
     return f'<div class="people">{out}</div>'
 
+def crew():
+    """Homepage team panels: one person open, the rest as grayscale tabs. site.js
+    cycles them while in view and stops for good on the first hover, click or focus.
+    The first panel ships open, so no-JS gets a working (static) section."""
+    out = ""
+    for i, t in enumerate(TEAM):
+        c, on = t["card"], i == 0
+        mid = f'mate-{t["slug"]}'
+        facts = "".join(f'<div><b>{esc(b)}</b><span>{esc(s)}</span></div>' for b, s in c["facts"])
+        out += f'''<div class="mate{' is-on' if on else ''}" style="--pos:{c["pos"]}">
+  <img class="mate-ph" src="/assets/img/{t["img"]}-portrait.jpg" alt="" loading="lazy" width="900" height="1125">
+  <button class="mate-tab" type="button" aria-expanded="{'true' if on else 'false'}" aria-controls="{mid}"><span class="vt"><i>+</i>{esc(t["name"])}</span></button>
+  <div class="mate-info" id="{mid}">
+    <p class="r">{esc(t["role"])}</p>
+    <h3><a href="/team/{t["slug"]}/">{esc(t["name"])}</a><small>{esc(t["suffix"])}</small></h3>
+    <p class="q">{esc(c["quote"])}</p>
+    <div class="facts3">{facts}</div>
+    <p class="mate-foot"><a href="mailto:{esc(t["email"])}">{esc(t["email"])}</a><a class="bio" href="/team/{t["slug"]}/">Read {esc(t["first"])}&rsquo;s bio &rarr;</a></p>
+  </div>
+</div>'''
+    return f'<div class="crew" data-crew>{out}</div>'
+
 def marquee():
     return '<div class="marquee" aria-hidden="true"><div class="marquee-track">' + "".join(f"<span>{esc(j)}</span>" for j in JURISDICTIONS) + '</div></div>'
 
@@ -289,7 +311,7 @@ def build_home():
 </div></section>'''
     body += f'''<section class="dark-ink"><div class="wrap">
   <div class="split" style="align-items:end;margin-bottom:34px"><div><div class="eyebrow reveal">The team</div><h2 class="reveal">Lawyers and planners, under one roof.</h2></div><div class="reveal" data-delay="1"><span class="link" style="border-color:var(--brass-2)"><a href="/team/">Attorneys &amp; professionals</a>{ARROW}</span></div></div>
-  {people_grid()}
+  {crew()}
 </div></section>'''
     body += f'''<section class="section-tight" style="padding-bottom:0"><div class="wrap" style="text-align:center;margin-bottom:26px"><div class="eyebrow reveal" style="justify-content:center">Where we work</div><h3 class="reveal">Zoning matters in {JCOUNT} jurisdictions across Ohio and Northern Kentucky</h3><div class="reveal" data-delay="1">{link("/jurisdictions/", "See the list")}</div></div>{marquee()}</section>'''
     body += cta()
