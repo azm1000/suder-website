@@ -77,7 +77,7 @@ def footer():
         <div style="margin-top:12px"><a href="tel:{FIRM["phone_tel"]}">{esc(FIRM["phone"])}</a><a href="mailto:{FIRM["email"]}">{esc(FIRM["email"])}</a></div>
       </div>
       <div><h4>Practice areas</h4>{pr}</div>
-      <div><h4>Firm</h4><a href="/results/">Results</a><a href="/opinions/">Published opinions</a><a href="/jurisdictions/">Jurisdictions</a><a href="/zoning-letters/">Zoning letters &amp; opinions</a><a href="/data-centers/">Data centers</a><a href="/team/">Team</a><a href="/careers/">Careers</a><a href="/contact/">Contact</a></div>
+      <div><h4>Firm</h4><a href="/results/">Results</a><a href="/opinions/">Published opinions</a><a href="/jurisdictions/">Jurisdictions</a><a href="/zoning-letters/">Zoning letters &amp; opinions</a><a href="/data-centers/">Data centers</a><a href="/news/">In the news</a><a href="/team/">Team</a><a href="/careers/">Careers</a><a href="/contact/">Contact</a></div>
       <div><h4>Recognition</h4><a href="/team/sean-suder/">Best Lawyers "Lawyer of the Year" 2026</a><a href="/team/sean-suder/">Chambers USA Band 1, every year since 2019</a><a href="/">Chambers Spotlight Firm 2025–2026</a><a href="{FIRM["zoneco"]}" rel="noopener" target="_blank">Sister firm: ZoneCo ↗</a></div>
     </div>
     <div class="bottom">
@@ -249,6 +249,22 @@ def crew():
 </div>'''
     return f'<div class="crew" data-crew>{out}</div>'
 
+def news_date(d):
+    y, _, m = d.partition("-")
+    return f"{datetime.date(int(y), int(m), 1):%B} {y}" if m else y
+
+def news_rows(items):
+    out = ""
+    for n in items:
+        ext = n["url"].startswith("http")
+        tgt = ' target="_blank" rel="noopener"' if ext else ""
+        label = "Read the article" if n["kind"] == "In the press" else "Read the paper"
+        more = f' · <a href="{n["related"]}" style="border-bottom:1px solid var(--brass)">Our data center work</a>' if n.get("related") == "/data-centers/" else ""
+        out += (f'<div class="opinion reveal"><div><div class="topic">{esc(n["kind"])} · {esc(n["outlet"])} · {news_date(n["date"])}</div>'
+                f'<b><a href="{esc(n["url"])}"{tgt}>{esc(n["title"])}</a></b><span>{esc(n["note"])}{more}</span></div>'
+                f'<a class="btn btn-outline" href="{esc(n["url"])}"{tgt}>{label}{ARROW}</a></div>')
+    return out
+
 def marquee():
     return '<div class="marquee" aria-hidden="true"><div class="marquee-track">' + "".join(f"<span>{esc(j)}</span>" for j in JURISDICTIONS) + '</div></div>'
 
@@ -308,6 +324,10 @@ def build_home():
   <div class="eyebrow reveal">Recognition</div>
   <h2 class="reveal" style="max-width:16ch">Peer reviewed. Consistently.</h2>
   <div style="margin-top:34px">{awards_grid()}</div>
+</div></section>'''
+    body += f'''<section class="section-tight"><div class="wrap">
+  <div class="split" style="align-items:end;margin-bottom:10px"><div><div class="eyebrow reveal">In the news</div><h2 class="reveal">Latest from Suder.</h2></div><div class="reveal" data-delay="1">{link("/news/", "All news")}</div></div>
+  {news_rows(NEWS[:3])}
 </div></section>'''
     body += f'''<section class="dark-ink"><div class="wrap">
   <div class="split" style="align-items:end;margin-bottom:34px"><div><div class="eyebrow reveal">The team</div><h2 class="reveal">Lawyers and planners, under one roof.</h2></div><div class="reveal" data-delay="1"><span class="link" style="border-color:var(--brass-2)"><a href="/team/">Attorneys &amp; professionals</a>{ARROW}</span></div></div>
@@ -440,6 +460,11 @@ def build_data_centers():
         "moratoria, and referendums, including the fight over the proposed Wilmington data center.",
         body, "/data-centers/", dark_hero=False, head_extra=head_extra))
 
+def build_news():
+    body = f'''<section class="page-head"><div class="wrap"><div class="eyebrow">In the news</div><h1>Latest from Suder.</h1><p class="lede">Press coverage of the firm and its attorneys, and what we have published.</p></div></section>
+<section style="padding-top:0"><div class="wrap-narrow" style="max-width:960px">{news_rows(NEWS)}</div></section>''' + cta()
+    write("/news/", page("In the News", "Press coverage of Suder, LLC and its attorneys, and publications by the firm, on Ohio land use, zoning, and real estate.", body, "/news/", dark_hero=False))
+
 def build_team():
     body = f'''<section class="page-head"><div class="wrap"><div class="eyebrow">Attorneys &amp; professionals</div><h1>Lawyers and planners, under one roof.</h1><p class="lede">Every member of the team has spent a career on the built environment: in city hall, at large law firms, in planning departments, and on development sites.</p></div></section>
 <section style="padding-top:0"><div class="wrap">{people_grid()}</div></section>''' + cta("Work with us.", "Reach any of us directly, or use the form and we will route it to the right person.")
@@ -526,15 +551,15 @@ def build_infra():
     Referrer-Policy = "strict-origin-when-cross-origin"
 ''', encoding="utf-8")
     (PUB / "robots.txt").write_text(f"User-agent: *\nAllow: /\nSitemap: {FIRM['domain']}/sitemap.xml\n", encoding="utf-8")
-    urls = ["/", "/results/", "/opinions/", "/jurisdictions/", "/zoning-letters/", "/data-centers/", "/team/", "/contact/", "/careers/", "/terms/"] + [f"/practice/{s}/" for s, _ in PRACTICES] + [f"/team/{t['slug']}/" for t in TEAM]
+    urls = ["/", "/results/", "/opinions/", "/jurisdictions/", "/zoning-letters/", "/data-centers/", "/news/", "/team/", "/contact/", "/careers/", "/terms/"] + [f"/practice/{s}/" for s, _ in PRACTICES] + [f"/team/{t['slug']}/" for t in TEAM]
     today = datetime.date.today().isoformat()
     sm = '<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n' + "".join(f"  <url><loc>{FIRM['domain']}{u}</loc><lastmod>{today}</lastmod></url>\n" for u in urls) + "</urlset>\n"
     (PUB / "sitemap.xml").write_text(sm, encoding="utf-8")
     (PUB / "assets/img/favicon.svg").write_text('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64"><rect width="64" height="64" rx="12" fill="#15243b"/><text x="32" y="45" text-anchor="middle" font-family="Georgia,serif" font-size="40" fill="#f5f2ec">S</text><rect x="14" y="50" width="36" height="3" fill="#b9924a"/></svg>', encoding="utf-8")
 
 if __name__ == "__main__":
-    for d in ["practice", "team", "results", "opinions", "jurisdictions", "zoning-letters", "data-centers", "contact", "thanks", "careers", "terms"]:
+    for d in ["practice", "team", "results", "opinions", "jurisdictions", "zoning-letters", "data-centers", "news", "contact", "thanks", "careers", "terms"]:
         shutil.rmtree(PUB / d, ignore_errors=True)
-    build_home(); build_practices(); build_results(); build_opinions(); build_jurisdictions(); build_zoning_letters(); build_data_centers(); build_team(); build_contact(); build_misc(); build_infra()
+    build_home(); build_practices(); build_results(); build_opinions(); build_jurisdictions(); build_zoning_letters(); build_data_centers(); build_news(); build_team(); build_contact(); build_misc(); build_infra()
     n = sum(1 for _ in PUB.rglob("*.html"))
     print("built", n, "pages")

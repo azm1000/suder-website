@@ -510,6 +510,21 @@ TEAM = [
          ]),
 ]
 
+# In the news: press mentions and publications, newest first. The homepage shows
+# the first three; /news/ shows all. date is "YYYY-MM" or "YYYY". Quote outlets'
+# headlines exactly as published, and do not describe what an article says about
+# the firm beyond what it actually says.
+NEWS = [
+    dict(date="2026-11", outlet="cleveland.com", kind="In the press",
+         title="Ohio communities are hitting pause on data centers. What power do counties have?",
+         url="https://www.cleveland.com/lake-county/2026/11/ohio-communities-are-hitting-pause-on-data-centers-what-power-do-counties-have.html",
+         note="Featuring Sean Suder of Suder, LLC.", related="/data-centers/"),
+    dict(date="2026", outlet="Sean S. Suder", kind="Publication",
+         title="All Zoning Is New York City Zoning",
+         url="/assets/docs/all-zoning-is-new-york-city-zoning.pdf",
+         note="How a custom-tailored solution for Manhattan has shaped communities across America for a century. (PDF)", related=None),
+]
+
 # Old Squarespace URLs -> new pages
 REDIRECTS = [
     ("/suder", "/team/sean-suder"),
