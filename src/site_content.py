@@ -322,6 +322,10 @@ JCOUNT = f"{len(JURISDICTIONS)}+"
 # of each person's letters belong on their own page, not on a 214px card.
 GRID_CREDENTIALS = ("FAICP", "AICP")
 
+# Chambers USA Spotlight Firm, Cincinnati Real Estate. Shown in the footer on every
+# page and on the homepage Recognition badge. Must match the current Chambers listing.
+SPOTLIGHT_YEARS = "2025–2027"
+
 AWARDS = [
     # url="" renders the badge as plain artwork; set one and it becomes a link to the listing
     dict(img="badge-best-lawyers-loty-2026.png", alt="Best Lawyers Lawyer of the Year 2026, Sean S. Suder, Land Use and Zoning Law, Cincinnati",
@@ -330,7 +334,7 @@ AWARDS = [
          title="Chambers USA, Band 1", sub="Ohio Real Estate: Zoning/Land Use, every year since 2019", url=""),
     dict(img="badge-best-law-firms-2026.png", alt="Best Law Firms 2026, ranked by Best Lawyers",
          title="Best Law Firms 2026", sub="Ranked by Best Lawyers · United States", url=""),
-    dict(img=None, alt="", title="Chambers Spotlight Firm", sub="Cincinnati Real Estate · 2025 and 2026", url=""),
+    dict(img=None, alt="", title="Chambers Spotlight Firm", sub=f"Cincinnati Real Estate · {SPOTLIGHT_YEARS}", url=""),
 ]
 
 CREDENTIALS = [

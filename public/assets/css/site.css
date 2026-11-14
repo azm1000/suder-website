@@ -2,7 +2,7 @@
    Tokens, base, layout, components. One file, no build step. */
 :root{
   --ink:#111418; --ink-2:#1d2229; --paper:#f5f2ec; --paper-2:#ebe6dc; --white:#ffffff;
-  --navy:#15243b; --navy-2:#0e192b; --brass:#b9924a; --brass-2:#d7b46b; --stone:#6b7280; --stone-2:#9aa0a8;
+  --navy:#15243b; --navy-2:#0e192b; --brass:#b9924a; --brass-2:#d7b46b; --brass-ink:#7a602f; --stone:#6b7280; --stone-2:#9aa0a8;
   --line:rgba(17,20,24,.12); --line-dark:rgba(255,255,255,.14);
   --display:"Fraunces",Georgia,"Times New Roman",serif; --body:"Inter",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
   --max:1240px; --gutter:clamp(20px,4vw,48px); --radius:6px;
@@ -37,6 +37,10 @@ section{padding:clamp(64px,9vw,128px) 0}
 .muted{color:var(--stone)}
 .dark{background:var(--navy);color:var(--white)}
 .dark-ink{background:var(--ink);color:var(--white)}
+/* small gold labels: --brass is only 2.6:1 on paper, so light sections use the
+   darker --brass-ink (4.77:1 on paper-2); dark sections keep the brighter --brass. .card .num is absent on purpose: cards stay
+   white even inside .dark sections */
+.dark .row .kicker,.dark-ink .row .kicker,.dark .person b i,.dark-ink .person b i,.dark .bio-hero .role,.dark-ink .bio-hero .role,.dark .opinion .topic,.dark-ink .opinion .topic{color:var(--brass)}
 .dark h1,.dark h2,.dark h3,.dark-ink h1,.dark-ink h2,.dark-ink h3{color:var(--white)}
 
 /* buttons */
@@ -156,7 +160,7 @@ body.menu-open{overflow:hidden}
 @media (max-width:640px){.grid-3,.grid-2,.grid-4{grid-template-columns:1fr}}
 .card{position:relative;background:var(--white);border:1px solid var(--line);border-radius:var(--radius);padding:34px 30px 30px;display:flex;flex-direction:column;min-height:300px;transition:transform .5s var(--ease),box-shadow .5s var(--ease),border-color .5s}
 .card:hover{transform:translateY(-6px);box-shadow:0 30px 60px -30px rgba(17,20,24,.35);border-color:rgba(17,20,24,.25)}
-.card .num{font-family:var(--display);font-size:13px;letter-spacing:.14em;color:var(--brass);margin-bottom:26px}
+.card .num{font-family:var(--display);font-size:13px;letter-spacing:.14em;color:var(--brass-ink);margin-bottom:26px}
 .card h3{font-size:26px;margin-bottom:12px;color:var(--ink)}
 .card p{font-size:15.5px;color:var(--ink-2);flex:1}
 .card .link{align-self:flex-start;margin-top:18px}
@@ -176,7 +180,7 @@ body.menu-open{overflow:hidden}
 .row .thumb-empty{display:grid;place-items:center;font-family:var(--display);font-style:italic;color:var(--stone);font-size:15px;border:1px solid var(--line)}
 .dark .row .thumb-empty{background:rgba(255,255,255,.05);border-color:var(--line-dark);color:var(--stone-2)}
 .row:hover{background:rgba(255,255,255,.5)}
-.row .kicker{font-size:12px;letter-spacing:.16em;text-transform:uppercase;font-weight:600;color:var(--brass);margin-bottom:8px}
+.row .kicker{font-size:12px;letter-spacing:.16em;text-transform:uppercase;font-weight:600;color:var(--brass-ink);margin-bottom:8px}
 .row h3{font-size:24px;margin-bottom:4px}
 .row .meta{font-size:14px;color:var(--stone)}
 .row p{margin:0;font-size:16px;color:var(--ink-2)}
@@ -208,7 +212,7 @@ body.menu-open{overflow:hidden}
 .person img{width:100%;height:100%;object-fit:cover;filter:grayscale(1) contrast(1.02);transition:filter .6s var(--ease),transform .9s var(--ease)}
 .person:hover img{filter:none;transform:scale(1.03)}
 .person b{display:block;font-family:var(--display);font-weight:500;font-size:20px;margin-top:14px}
-.person b i{font-style:normal;font-family:var(--body);font-size:11.5px;font-weight:600;letter-spacing:.1em;color:var(--brass);margin-left:8px;white-space:nowrap;vertical-align:2px}
+.person b i{font-style:normal;font-family:var(--body);font-size:11.5px;font-weight:600;letter-spacing:.1em;color:var(--brass-ink);margin-left:8px;white-space:nowrap;vertical-align:2px}
 @media (max-width:420px){.person b i{display:block;margin-left:0;vertical-align:0;min-height:15px;line-height:15px}}
 .person span{display:block;font-size:13px;color:var(--stone);letter-spacing:.04em;text-transform:uppercase;margin-top:2px}
 .dark .person span{color:var(--stone-2)}
@@ -320,7 +324,7 @@ body.menu-open{overflow:hidden}
 .bio-hero .ph{aspect-ratio:4/5;overflow:hidden;border-radius:var(--radius)}
 .bio-hero img{width:100%;height:100%;object-fit:cover}
 .bio-hero h1{font-size:clamp(38px,5vw,64px)}
-.bio-hero .role{font-size:13px;letter-spacing:.16em;text-transform:uppercase;font-weight:600;color:var(--brass);margin-bottom:14px;display:block}
+.bio-hero .role{font-size:13px;letter-spacing:.16em;text-transform:uppercase;font-weight:600;color:var(--brass-ink);margin-bottom:14px;display:block}
 .bio-hero .contact{font-size:15px;color:var(--ink-2);line-height:1.8}
 .bio-body .wrap{display:grid;grid-template-columns:7fr 5fr;gap:clamp(30px,5vw,80px)}
 @media (max-width:860px){.bio-body .wrap{grid-template-columns:1fr}}
@@ -338,7 +342,7 @@ body.menu-open{overflow:hidden}
 @media (max-width:900px){.list-cols{columns:2}}
 @media (max-width:560px){.list-cols{columns:1}}
 .opinion{display:grid;grid-template-columns:1fr auto;gap:20px;padding:26px 0;border-bottom:1px solid var(--line);align-items:center}
-.opinion .topic{font-size:12px;letter-spacing:.16em;text-transform:uppercase;font-weight:600;color:var(--brass);margin-bottom:6px}
+.opinion .topic{font-size:12px;letter-spacing:.16em;text-transform:uppercase;font-weight:600;color:var(--brass-ink);margin-bottom:6px}
 .opinion b{font-family:var(--display);font-weight:500;font-size:22px;display:block}
 .opinion span{font-size:14px;color:var(--stone)}
 @media (max-width:640px){.opinion{grid-template-columns:1fr}}

@@ -59,8 +59,8 @@ from inside the session. Ask Sean to send images.
 
 ## Current state
 
-- `V = "20261030a"`. To check whether a deploy landed, view source on the
-  homepage and look for `site.css?v=20261030a`.
+- `V = "20261114a"`. To check whether a deploy landed, view source on the
+  homepage and look for `site.css?v=20261114a`.
 - 10 hero slides, 23 results, 66 jurisdictions, 5 team members, 6 reel words.
 - The homepage team section is expanding panels (`crew()` in `src/build.py`,
   CSS under "homepage team" in `site.css`, `[data-crew]` in `site.js`),
@@ -68,6 +68,13 @@ from inside the session. Ask Sean to send images.
   cycles every 6s while in view and stops for good on the first hover, click or
   focus. At 1100px and below it becomes swipeable cards (the open panel crowds
   faces at tablet widths). `/team/` still uses `people_grid()`.
+- Small gold text on light backgrounds uses `--brass-ink` (#7a602f, 4.77:1 or
+  better on every light background); `--brass` is only 2.6:1 there and is kept for
+  dark sections. Every gold label on all pages measured passing on 2026-11-14.
+- "In the news" is the `NEWS` list in `src/site_content.py` (homepage shows the
+  first three, `/news/` shows all). The cleveland.com headline was taken from the
+  URL because the site is blocked here; confirm it against the article.
+- Chambers Spotlight years are the single `SPOTLIGHT_YEARS` value (footer + badge).
 - Panel copy is each `TEAM` entry's `card` dict (summary line + three facts).
   It only restates that person's bio, so update both together. Text contrast
   over the photos measured at 7.2:1 minimum for all five; re-measure if a
@@ -80,7 +87,7 @@ from inside the session. Ask Sean to send images.
 **Deploy verification — unresolved and the most important.** Earlier in the
 session Netlify was serving a build older than `main`, and it was never
 confirmed fixed. Nothing since has been verified live, because this environment
-cannot reach the site. If the homepage does not show `v=20261030a`, check that
+cannot reach the site. If the homepage does not show `v=20261114a`, check that
 the Netlify site is connected to `azm1000/suder-website` with `main` as
 production branch, that auto-publishing is not stopped, and that the publish
 directory is `public`. A drag-and-drop deploy package can be rebuilt from

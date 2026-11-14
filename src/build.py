@@ -9,7 +9,7 @@ import landing_content as LC
 
 ROOT = Path(__file__).resolve().parent.parent
 PUB = ROOT / "public"
-V = "20261030a"  # cache-bust for css/js
+V = "20261114a"  # cache-bust for css/js
 
 def esc(s): return html.escape(s, quote=True)
 
@@ -78,7 +78,7 @@ def footer():
       </div>
       <div><h4>Practice areas</h4>{pr}</div>
       <div><h4>Firm</h4><a href="/results/">Results</a><a href="/opinions/">Published opinions</a><a href="/jurisdictions/">Jurisdictions</a><a href="/zoning-letters/">Zoning letters &amp; opinions</a><a href="/data-centers/">Data centers</a><a href="/news/">In the news</a><a href="/team/">Team</a><a href="/careers/">Careers</a><a href="/contact/">Contact</a></div>
-      <div><h4>Recognition</h4><a href="/team/sean-suder/">Best Lawyers "Lawyer of the Year" 2026</a><a href="/team/sean-suder/">Chambers USA Band 1, every year since 2019</a><a href="/">Chambers Spotlight Firm 2025–2026</a><a href="{FIRM["zoneco"]}" rel="noopener" target="_blank">Sister firm: ZoneCo ↗</a></div>
+      <div><h4>Recognition</h4><a href="/team/sean-suder/">Best Lawyers "Lawyer of the Year" 2026</a><a href="/team/sean-suder/">Chambers USA Band 1, every year since 2019</a><a href="/">Chambers Spotlight Firm {SPOTLIGHT_YEARS}</a><a href="{FIRM["zoneco"]}" rel="noopener" target="_blank">Sister firm: ZoneCo ↗</a></div>
     </div>
     <div class="bottom">
       <div>&copy; <span data-year>2026</span> Suder, LLC. All rights reserved. Attorney advertising.</div>

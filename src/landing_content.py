@@ -501,7 +501,7 @@ PAGES = [
 
 # Firm-wide blocks the template references but does not give a slot for.
 AWARDS = [
-    "Chambers USA Spotlight Firm, Cincinnati Real Estate (2025, 2026)",
+    "Chambers USA Spotlight Firm, Cincinnati Real Estate (2025-2027)",
     "Chambers USA, Band 1, Ohio Real Estate: Zoning/Land Use, Sean S. Suder (2019-2026) " + FLAG.strip(),
     "The Best Lawyers in America, Real Estate Law and Land Use and Zoning Law, Sean S. Suder (2019-2025) " + FLAG.strip(),
     "Ohio Super Lawyers and Ohio Rising Stars, Sean S. Suder (2007, 2009, 2016-2018)",
