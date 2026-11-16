@@ -118,6 +118,10 @@ RESULTS = [
          kicker="Data centers",
          summary="Counsel in the opposition to a proposed hyperscale data center campus in Wilmington, Ohio, on the questions these projects turn on: whether the use is permitted at all under the existing text, what the campus draws from the local water supply, the generation and transmission that arrives with it, and noise at the property line.",
          practices=["land-use-zoning", "real-property-litigation"]),
+    dict(slug="dickard-v-jackson", img=None, title="Regulatory takings: Dickard v. Jackson & Jackson, LLC", meta="No. CA2025-07-072 (12th Dist. Nov. 16, 2026)",
+         kicker="Published opinion",
+         summary="Representing a Butler County property owner whose commercial use was shut down by a zoning enforcement action, Suder won a unanimous reversal reinstating two of the owner's three counterclaims: its as-applied constitutional challenge to the zoning resolution and its Section 1983 regulatory takings claim. The Twelfth District held that Ohio's four-year limitations period for takings claims, R.C. 2305.09(E), governs Section 1983 takings claims; that neither claim had to be brought in mandamus; and that an owner need not appeal a variance denial before challenging a zoning regulation's constitutionality, overruling the court's own contrary precedent.",
+         practices=["real-property-litigation", "eminent-domain", "land-use-zoning"]),
     dict(slug="miller-v-cincinnati", img="r-city-hall.jpg", title="Taxpayer standing: Cincinnati ex rel. Miller v. Cincinnati", meta="2024-Ohio-4805 (1st Dist.)",
          kicker="Published opinion",
          summary="Representing the affordable housing developer, Over-the-Rhine Community Housing, Suder defeated a taxpayer suit attacking the City ordinance that approved the project. The First District vacated the judgment and ordered the case dismissed for lack of standing.",
@@ -185,6 +189,10 @@ RESULTS = [
 ]
 
 OPINIONS = [
+    # Slip opinion hosted here until the Supreme Court of Ohio assigns a webcite
+    # (2026-Ohio-____); then swap the cite and url to the supremecourt.ohio.gov PDF.
+    ("Regulatory takings; Section 1983; exhaustion", "Dickard v. Jackson & Jackson, LLC", "No. CA2025-07-072 (12th Dist. Nov. 16, 2026)",
+     "/assets/docs/dickard-v-jackson-ca2025-07-072.pdf", "dickard-v-jackson"),
     ("Taxpayer standing", "Cincinnati ex rel. Miller v. Cincinnati", "2024-Ohio-4805 (1st Dist.)",
      "https://www.supremecourt.ohio.gov/rod/docs/pdf/1/2024/2024-Ohio-4805.pdf", "miller-v-cincinnati"),
     ("Nonconforming uses; abandonment of property rights", "Cook v. Lockland", "2024-Ohio-9 (1st Dist.)",
@@ -519,14 +527,19 @@ TEAM = [
 # headlines exactly as published, and do not describe what an article says about
 # the firm beyond what it actually says.
 NEWS = [
+    dict(date="2026-11", outlet="Twelfth District Court of Appeals", kind="Court decision",
+         title="Dickard v. Jackson & Jackson, LLC: regulatory takings claims reinstated",
+         url="/assets/docs/dickard-v-jackson-ca2025-07-072.pdf", label="Read the opinion",
+         note="A unanimous reversal for our client on Section 1983 takings, the statute of limitations, and exhaustion. (PDF)",
+         related=("/results/#dickard-v-jackson", "Case summary")),
     dict(date="2026-11", outlet="cleveland.com", kind="In the press",
          title="Ohio communities are hitting pause on data centers. What power do counties have?",
          url="https://www.cleveland.com/lake-county/2026/11/ohio-communities-are-hitting-pause-on-data-centers-what-power-do-counties-have.html",
-         note="Featuring Sean Suder of Suder, LLC.", related="/data-centers/"),
+         note="Featuring Sean Suder of Suder, LLC.", label="Read the article", related=("/data-centers/", "Our data center work")),
     dict(date="2026", outlet="Sean S. Suder", kind="Publication",
          title="All Zoning Is New York City Zoning",
          url="/assets/docs/all-zoning-is-new-york-city-zoning.pdf",
-         note="How a custom-tailored solution for Manhattan has shaped communities across America for a century. (PDF)", related=None),
+         note="How a custom-tailored solution for Manhattan has shaped communities across America for a century. (PDF)", label="Read the paper", related=None),
 ]
 
 # Old Squarespace URLs -> new pages

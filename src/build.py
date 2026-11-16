@@ -258,8 +258,8 @@ def news_rows(items):
     for n in items:
         ext = n["url"].startswith("http")
         tgt = ' target="_blank" rel="noopener"' if ext else ""
-        label = "Read the article" if n["kind"] == "In the press" else "Read the paper"
-        more = f' · <a href="{n["related"]}" style="border-bottom:1px solid var(--brass)">Our data center work</a>' if n.get("related") == "/data-centers/" else ""
+        label = n["label"]
+        more = f' · <a href="{n["related"][0]}" style="border-bottom:1px solid var(--brass)">{esc(n["related"][1])}</a>' if n.get("related") else ""
         out += (f'<div class="opinion reveal"><div><div class="topic">{esc(n["kind"])} · {esc(n["outlet"])} · {news_date(n["date"])}</div>'
                 f'<b><a href="{esc(n["url"])}"{tgt}>{esc(n["title"])}</a></b><span>{esc(n["note"])}{more}</span></div>'
                 f'<a class="btn btn-outline" href="{esc(n["url"])}"{tgt}>{label}{ARROW}</a></div>')
